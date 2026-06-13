@@ -2,23 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { getVerifications, updateVerification } from '@/app/actions/admin'
-
-const recentActivity = [
-  { action:'New tender posted', detail:'TND-089 — Defibrillator x4', time:'3 min ago', type:'tender' },
-  { action:'Supplier verified', detail:'MedGlobal Corp. — Verified', time:'12 min ago', type:'verify' },
-  { action:'Bid awarded', detail:'TND-076 won by PharmaDist', time:'28 min ago', type:'award' },
-  { action:'New registration', detail:'Sunrise Hospital joined', time:'1 hr ago', type:'user' },
-  { action:'Category added', detail:'Orthopaedic Equipment', time:'2 hrs ago', type:'category' },
-]
+import { getVerifications, updateVerification, getReports } from '@/app/actions/admin'
 
 const activityIcon: Record<string,string> = {
   tender:'📋', verify:'✅', award:'🏆', user:'👤', category:'🏷️',
 }
-
-// Growth chart data
-const growthData = [120,145,132,178,156,201,189,224,243,218,267,312]
-const maxGrowth = Math.max(...growthData)
 
 const adminSections = [
   { icon:'📊', label:'Overview', href:'/admin', id:'overview' },
@@ -44,12 +32,43 @@ const platformStats = [
 export default function AdminDashboard() {
   const [verifications, setVerifications] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [stats, setStats] = useState<any[]>([
+    { label:'Total Users', value:'...', change:'Loading...', trend:'neutral', icon:'👥' },
+    { label:'Active Tenders', value:'...', change:'Loading...', trend:'neutral', icon:'📋' },
+    { label:'Verified Suppliers', value:'...', change:'Loading...', trend:'neutral', icon:'🏭' },
+    { label:'Platform Revenue', value:'...', change:'Loading...', trend:'neutral', icon:'💰' },
+    { label:'Bids Submitted', value:'...', change:'Loading...', trend:'neutral', icon:'📤' },
+    { label:'Clinics Partnered', value:'...', change:'Loading...', trend:'neutral', icon:'🏥' },
+  ])
+  const [growth, setGrowth] = useState<number[]>([120, 145, 132, 178, 156, 201, 189, 224, 243, 218, 267, 300])
+  const [activity, setActivity] = useState<any[]>([])
 
-  const fetchPending = async () => {
+  const fetchDashboardData = async () => {
     try {
-      const data = await getVerifications()
-      const pending = data.filter((v: any) => v.status === 'Pending')
+      const verifData = await getVerifications()
+      const pending = verifData.filter((v: any) => v.status === 'Pending')
       setVerifications(pending)
+      
+      const reports = await getReports()
+      if (reports) {
+        if (reports.stats) {
+          const s = reports.stats
+          setStats([
+            { label:'Total Users', value: s.totalUsers?.toString() || '0', change:`+${pending.length} pending`, trend:'neutral', icon:'👥' },
+            { label:'Active Tenders', value: s.activeTenders?.toString() || '0', change:`Total: ${s.totalTenders || 0}`, trend:'up', icon:'📋' },
+            { label:'Verified Suppliers', value: s.totalSuppliers?.toString() || '0', change:'Active partners', trend:'neutral', icon:'🏭' },
+            { label:'Platform Revenue', value: s.revenueEstimate || '$0', change:'+0% MoM', trend:'up', icon:'💰' },
+            { label:'Bids Submitted', value: s.bidsSubmitted?.toLocaleString() || '0', change:'Platform total', trend:'up', icon:'📤' },
+            { label:'Clinics Partnered', value: s.totalClinics?.toString() || '0', change:'Registered clinics', trend:'neutral', icon:'🏥' },
+          ])
+        }
+        if (reports.userGrowth) {
+          setGrowth(reports.userGrowth)
+        }
+        if (reports.recentActivity) {
+          setActivity(reports.recentActivity)
+        }
+      }
     } catch (e) {
       console.error(e)
     } finally {
@@ -58,19 +77,21 @@ export default function AdminDashboard() {
   }
 
   useEffect(() => {
-    fetchPending()
+    fetchDashboardData()
   }, [])
 
   const handleApprove = async (id: number) => {
     if (confirm('Are you sure you want to approve this verification?')) {
       const res = await updateVerification(id, 'Approved')
       if (res.success) {
-        fetchPending()
+        fetchDashboardData()
       } else {
         alert(res.error || 'Failed to approve verification')
       }
     }
   }
+
+  const maxGrowth = Math.max(...growth, 1)
   return (
     <>
       {/* Top Bar */}
@@ -96,7 +117,7 @@ export default function AdminDashboard() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-          {platformStats.map(s => (
+          {stats.map(s => (
             <div key={s.label} className="glass-card rounded-2xl p-4 card-hover">
               <div className="text-xl mb-2">{s.icon}</div>
               <p className="text-lg font-bold text-white">{s.value}</p>
@@ -118,7 +139,7 @@ export default function AdminDashboard() {
               <span className="text-emerald-400 text-sm font-semibold">+22% MoM</span>
             </div>
             <div className="flex items-end gap-1.5 h-32">
-              {growthData.map((v, i) => (
+              {growth.map((v, i) => (
                 <div key={i} className="flex-1 flex flex-col items-center gap-1 group cursor-pointer">
                   <div className="w-full rounded-t transition-all duration-300 bg-primary-500/30 group-hover:bg-primary-500/70"
                     style={{ height: `${(v/maxGrowth)*100}%` }}>
@@ -134,16 +155,20 @@ export default function AdminDashboard() {
           <div className="glass-card rounded-2xl p-5">
             <h3 className="text-sm font-semibold text-white mb-4">Live Activity</h3>
             <div className="space-y-3">
-              {recentActivity.map((a, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-sm flex-shrink-0">{activityIcon[a.type]}</div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs font-semibold text-slate-200">{a.action}</p>
-                    <p className="text-xs text-slate-500 truncate">{a.detail}</p>
+              {activity.length === 0 ? (
+                <p className="text-xs text-slate-500 py-4 text-center">No recent activities.</p>
+              ) : (
+                activity.map((a, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <div className="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-sm flex-shrink-0">{activityIcon[a.type] || '🔔'}</div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-semibold text-slate-200">{a.action}</p>
+                      <p className="text-xs text-slate-500 truncate">{a.detail}</p>
+                    </div>
+                    <span className="text-[10px] text-slate-600 whitespace-nowrap">{a.time}</span>
                   </div>
-                  <span className="text-[10px] text-slate-600 whitespace-nowrap">{a.time}</span>
-                </div>
-              ))}
+                ))
+              )}
             </div>
             <div className="flex items-center gap-1.5 mt-4 pt-3 border-t border-slate-800/60">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"/>
