@@ -92,6 +92,23 @@ export default function AdminDashboard() {
   }
 
   const maxGrowth = Math.max(...growth, 1)
+
+  const [showNotifications, setShowNotifications] = useState(false)
+  const notifications = [
+    ...verifications.map((v: any) => ({
+      action: `Pending Verification`,
+      detail: `${v.name} (${v.type}) awaits review.`,
+      time: v.submitted || 'Just now',
+      type: 'verify'
+    })),
+    ...activity.map((a: any) => ({
+      action: a.action,
+      detail: a.detail,
+      time: a.time,
+      type: a.type
+    }))
+  ]
+
   return (
     <>
       {/* Top Bar */}
@@ -102,10 +119,45 @@ export default function AdminDashboard() {
         </div>
         <div className="flex items-center gap-3">
           <button className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-lg transition-colors">Export Report</button>
-          <button className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white transition-colors relative">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-rose-500 text-white text-xs rounded-full flex items-center justify-center">7</span>
-          </button>
+          
+          <div className="relative">
+            <button 
+              onClick={() => setShowNotifications(!showNotifications)}
+              className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white transition-colors relative"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+              {notifications.length > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-rose-500 text-white text-[9px] rounded-full flex items-center justify-center font-bold">
+                  {notifications.length}
+                </span>
+              )}
+            </button>
+
+            {showNotifications && (
+              <div className="absolute right-0 mt-2 w-80 rounded-2xl bg-slate-900 border border-slate-800/80 shadow-xl overflow-hidden z-50">
+                <div className="p-4 border-b border-slate-800/60 flex items-center justify-between">
+                  <h3 className="text-xs font-bold text-white uppercase tracking-wider">Notifications</h3>
+                  <button onClick={() => setShowNotifications(false)} className="text-[10px] text-slate-500 hover:text-white">Close</button>
+                </div>
+                <div className="max-h-64 overflow-y-auto divide-y divide-slate-800/40">
+                  {notifications.length === 0 ? (
+                    <div className="p-4 text-center text-slate-500 text-xs">No notifications</div>
+                  ) : (
+                    notifications.map((n, i) => (
+                      <div key={i} className="p-3 hover:bg-slate-800/30 transition-colors flex gap-2.5 items-start text-left">
+                        <span className="text-sm mt-0.5">{activityIcon[n.type] || '🔔'}</span>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-semibold text-slate-200">{n.action}</p>
+                          <p className="text-[10px] text-slate-500 truncate">{n.detail}</p>
+                          <span className="text-[9px] text-slate-600 block mt-0.5">{n.time}</span>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </header>
 

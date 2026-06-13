@@ -11,7 +11,9 @@ export default function AdminSettingsPage() {
     allowRegistrations: true,
     requireVerification: true,
     commissionRate: '2.5%',
-    supportEmail: 'support@medihub.com'
+    supportEmail: 'support@medihub.com',
+    clinicProPrice: '$99',
+    supplierStandardPrice: '$149'
   })
   
   const [loading, setLoading] = useState(true)
@@ -32,7 +34,9 @@ export default function AdminSettingsPage() {
           allowRegistrations: data.allowRegistrations ?? true,
           requireVerification: data.requireVerification ?? true,
           commissionRate: data.commissionRate ?? '2.5%',
-          supportEmail: data.supportEmail ?? 'support@medihub.com'
+          supportEmail: data.supportEmail ?? 'support@medihub.com',
+          clinicProPrice: data.clinicProPrice ?? '$99',
+          supplierStandardPrice: data.supplierStandardPrice ?? '$149'
         })
       }
     } catch (e) {
@@ -119,6 +123,16 @@ export default function AdminSettingsPage() {
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Commission Charge Rate</label>
                 <input required value={form.commissionRate} onChange={e => setForm({...form, commissionRate: e.target.value})} type="text" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-primary-500" />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Clinic Pro Price Plan</label>
+                <input required value={form.clinicProPrice} onChange={e => setForm({...form, clinicProPrice: e.target.value})} type="text" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-primary-500" />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Supplier Standard Price Plan</label>
+                <input required value={form.supplierStandardPrice} onChange={e => setForm({...form, supplierStandardPrice: e.target.value})} type="text" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-primary-500" />
               </div>
 
               <div className="space-y-1.5 md:col-span-2">

@@ -65,7 +65,9 @@ SEED_DATA = {
         "allowRegistrations": True,
         "requireVerification": True,
         "commissionRate": "2.5%",
-        "supportEmail": "support@medihub.com"
+        "supportEmail": "support@medihub.com",
+        "clinicProPrice": "$99",
+        "supplierStandardPrice": "$149"
     }
 }
 
@@ -474,7 +476,7 @@ def update_settings():
     req = request.get_json() or {}
     if 'settings' not in data_store:
         data_store['settings'] = {}
-    for key in ['platformName', 'maintenanceMode', 'allowRegistrations', 'requireVerification', 'commissionRate', 'supportEmail']:
+    for key in ['platformName', 'maintenanceMode', 'allowRegistrations', 'requireVerification', 'commissionRate', 'supportEmail', 'clinicProPrice', 'supplierStandardPrice']:
         if key in req:
             data_store['settings'][key] = req[key]
     save_data(data_store)

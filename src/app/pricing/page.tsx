@@ -1,10 +1,12 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { motion } from 'framer-motion'
 import { CheckCircle2, Zap } from 'lucide-react'
 import Link from 'next/link'
+import { getSettings } from '@/app/actions/admin'
 
 const fadeUp: any = {
   hidden: { opacity: 0, y: 20 },
@@ -54,6 +56,24 @@ const supplierTiers = [
 ]
 
 export default function PricingPage() {
+  const [clinicProPrice, setClinicProPrice] = useState('$99')
+  const [supplierStandardPrice, setSupplierStandardPrice] = useState('$149')
+
+  useEffect(() => {
+    async function loadPricing() {
+      try {
+        const settings = await getSettings()
+        if (settings) {
+          if (settings.clinicProPrice) setClinicProPrice(settings.clinicProPrice)
+          if (settings.supplierStandardPrice) setSupplierStandardPrice(settings.supplierStandardPrice)
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    loadPricing()
+  }, [])
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
       <Navbar />
@@ -89,7 +109,9 @@ export default function PricingPage() {
                     <h3 className="text-xl font-bold text-slate-900 mb-2">{tier.name}</h3>
                     <p className="text-sm text-slate-500 mb-6 min-h-[40px] leading-relaxed">{tier.desc}</p>
                     <div className="mb-8">
-                      <span className="text-4xl font-extrabold text-slate-900">{tier.price}</span>
+                      <span className="text-4xl font-extrabold text-slate-900">
+                        {tier.name === 'Pro' ? clinicProPrice : tier.price}
+                      </span>
                       {tier.period && <span className="text-slate-500 font-medium">{tier.period}</span>}
                     </div>
                     <ul className="space-y-4 mb-8 flex-1">
@@ -121,7 +143,9 @@ export default function PricingPage() {
                     <h3 className="text-xl font-bold text-slate-900 mb-2">{tier.name}</h3>
                     <p className="text-sm text-slate-500 mb-6 min-h-[40px] leading-relaxed">{tier.desc}</p>
                     <div className="mb-8">
-                      <span className="text-4xl font-extrabold text-slate-900">{tier.price}</span>
+                      <span className="text-4xl font-extrabold text-slate-900">
+                        {tier.name === 'Standard' ? supplierStandardPrice : tier.price}
+                      </span>
                       {tier.period && <span className="text-slate-500 font-medium">{tier.period}</span>}
                     </div>
                     <ul className="space-y-4 mb-8 flex-1">
