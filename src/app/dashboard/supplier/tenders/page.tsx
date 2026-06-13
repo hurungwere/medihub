@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { getCategories } from '@/app/actions/admin'
 
 const allTenders = [
   { id:'TND-001', title:'Surgical Gloves — Latex Free', facility:'Northgate Hospital', category:'Consumables', budget:'$8,200', deadline:'3 days', bids:7, match:94, region:'London', urgent:true },
@@ -12,10 +13,25 @@ const allTenders = [
   { id:'TND-006', title:'Antibiotic Infusion Sets', facility:'City Clinic', category:'Pharmaceuticals', budget:'$12,400', deadline:'5 days', bids:6, match:91, region:'London', urgent:false },
 ]
 
-const categories = ['All','Pharmaceuticals','Equipment','Consumables','Diagnostics','Laboratory','PPE']
 const regions = ['All Regions','London','Manchester','Birmingham','Leeds','Bristol']
 
 export default function TenderDiscovery() {
+  const [categories, setCategories] = useState<string[]>(['All','Pharmaceuticals','Equipment','Consumables','Diagnostics','Laboratory','PPE'])
+
+  useEffect(() => {
+    async function loadCats() {
+      try {
+        const data = await getCategories()
+        if (data && data.length > 0) {
+          setCategories(['All', ...data.map((c: any) => c.name)])
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    loadCats()
+  }, [])
+
   const [search, setSearch] = useState('')
   const [cat, setCat] = useState('All')
   const [region, setRegion] = useState('All Regions')

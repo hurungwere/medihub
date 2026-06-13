@@ -1,14 +1,32 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
+import { getCategories } from '@/app/actions/admin'
 
-const categories = ['Pharmaceuticals','Medical Equipment','Consumables','Laboratory','IT/Healthcare Tech','PPE','Diagnostics']
 const units = ['Units','Boxes','Cartons','Vials','Packs','Litres','Kg']
 
 interface ProductRow { name:string; qty:string; unit:string; spec:string }
 
 export default function CreateTenderPage() {
+  const [categories, setCategories] = useState<string[]>([
+    'Pharmaceuticals', 'Medical Equipment', 'Consumables', 'Laboratory', 'IT/Healthcare Tech', 'PPE', 'Diagnostics'
+  ])
+
+  useEffect(() => {
+    async function loadCats() {
+      try {
+        const data = await getCategories()
+        if (data && data.length > 0) {
+          setCategories(data.map((c: any) => c.name))
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    loadCats()
+  }, [])
+
   const [step, setStep] = useState(1)
   const [dragging, setDragging] = useState(false)
   const [files, setFiles] = useState<File[]>([])

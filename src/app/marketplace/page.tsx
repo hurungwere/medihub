@@ -4,6 +4,7 @@ import { Search, Filter, ShieldCheck, TrendingDown, ArrowRight } from 'lucide-re
 import Link from 'next/link'
 
 import { getTenders } from '@/app/actions/tenders'
+import { getCategories } from '@/app/actions/admin'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,6 +22,12 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
       t.category?.toLowerCase().includes(qLower)
     )
   }
+
+  const dbCategories = await getCategories()
+  const categoryNames = dbCategories && dbCategories.length > 0
+    ? dbCategories.map((c: any) => c.name)
+    : ['Pharmaceuticals', 'Medical Equipment', 'Consumables', 'Lab Supplies', 'Surgical Tools']
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
       <Navbar />
@@ -51,7 +58,7 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
                   <div>
                     <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Category</h3>
                     <div className="space-y-2">
-                      {['Pharmaceuticals', 'Medical Equipment', 'Consumables', 'Lab Supplies', 'Surgical Tools'].map(c => (
+                      {categoryNames.map(c => (
                         <label key={c} className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 cursor-pointer">
                           <input type="checkbox" className="rounded border-slate-300 text-primary-600 focus:ring-primary-500" />
                           {c}

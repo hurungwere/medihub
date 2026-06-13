@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
+import { getCategories } from '@/app/actions/admin'
 
 const allTenders = [
   { id: 'TND-001', title: 'Surgical Gloves — Latex Free', category: 'Consumables', bids: 7, status: 'Open', deadline: '2026-06-14', budget: '$8,200', created: '2026-06-01', priority: 'High' },
@@ -39,12 +40,27 @@ const priorityDots: Record<string, string> = {
   Low: 'bg-slate-500',
 }
 
-const categories = ['All', 'Consumables', 'Pharmaceuticals', 'Equipment']
 const statuses = ['All', 'Open', 'Evaluating', 'Awarded', 'Closed']
 
 type SortField = 'id' | 'title' | 'bids' | 'deadline' | 'budget' | 'created'
 
 export default function TendersPage() {
+  const [categories, setCategories] = useState<string[]>(['All', 'Consumables', 'Pharmaceuticals', 'Equipment'])
+
+  useEffect(() => {
+    async function loadCats() {
+      try {
+        const data = await getCategories()
+        if (data && data.length > 0) {
+          setCategories(['All', ...data.map((c: any) => c.name)])
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    loadCats()
+  }, [])
+
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('All')
   const [categoryFilter, setCategoryFilter] = useState('All')

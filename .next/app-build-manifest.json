@@ -48,16 +48,7 @@
       "static/chunks/117-991cad879509df83.js",
       "static/chunks/main-app-10b3a1b499c3281b.js",
       "static/chunks/648-a41745ebae293ba3.js",
-      "static/chunks/app/marketplace/[id]/page-841a815c5c486421.js"
-    ],
-    "/page": [
-      "static/chunks/webpack-a3c37fcbf859f6f9.js",
-      "static/chunks/fd9d1056-b4129a380d1be68f.js",
-      "static/chunks/117-991cad879509df83.js",
-      "static/chunks/main-app-10b3a1b499c3281b.js",
-      "static/chunks/648-a41745ebae293ba3.js",
-      "static/chunks/721-db03153fca40ab56.js",
-      "static/chunks/app/page-9499e69202a7e000.js"
+      "static/chunks/app/marketplace/[id]/page-3bec5eaa03c246ee.js"
     ],
     "/pricing/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
@@ -68,13 +59,14 @@
       "static/chunks/721-db03153fca40ab56.js",
       "static/chunks/app/pricing/page-650c11d4090300d1.js"
     ],
-    "/marketplace/page": [
+    "/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
       "static/chunks/fd9d1056-b4129a380d1be68f.js",
       "static/chunks/117-991cad879509df83.js",
       "static/chunks/main-app-10b3a1b499c3281b.js",
       "static/chunks/648-a41745ebae293ba3.js",
-      "static/chunks/app/marketplace/page-47d37dce8cd9369a.js"
+      "static/chunks/721-db03153fca40ab56.js",
+      "static/chunks/app/page-9499e69202a7e000.js"
     ],
     "/suppliers/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
@@ -84,12 +76,20 @@
       "static/chunks/648-a41745ebae293ba3.js",
       "static/chunks/app/suppliers/page-7d51fc29062f264e.js"
     ],
-    "/admin/clinics/page": [
+    "/marketplace/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
       "static/chunks/fd9d1056-b4129a380d1be68f.js",
       "static/chunks/117-991cad879509df83.js",
       "static/chunks/main-app-10b3a1b499c3281b.js",
-      "static/chunks/app/admin/clinics/page-7e07140c29d88cab.js"
+      "static/chunks/648-a41745ebae293ba3.js",
+      "static/chunks/app/marketplace/page-47d37dce8cd9369a.js"
+    ],
+    "/admin/categories/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-b4129a380d1be68f.js",
+      "static/chunks/117-991cad879509df83.js",
+      "static/chunks/main-app-10b3a1b499c3281b.js",
+      "static/chunks/app/admin/categories/page-468897c4241d12b9.js"
     ],
     "/admin/layout": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
@@ -99,12 +99,12 @@
       "static/chunks/648-a41745ebae293ba3.js",
       "static/chunks/app/admin/layout-4f2bd4166214a527.js"
     ],
-    "/admin/categories/page": [
+    "/admin/clinics/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
       "static/chunks/fd9d1056-b4129a380d1be68f.js",
       "static/chunks/117-991cad879509df83.js",
       "static/chunks/main-app-10b3a1b499c3281b.js",
-      "static/chunks/app/admin/categories/page-468897c4241d12b9.js"
+      "static/chunks/app/admin/clinics/page-7e07140c29d88cab.js"
     ],
     "/admin/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
@@ -135,13 +135,6 @@
       "static/chunks/main-app-10b3a1b499c3281b.js",
       "static/chunks/app/admin/suppliers/page-250f66d7f3f9082d.js"
     ],
-    "/admin/tenders/page": [
-      "static/chunks/webpack-a3c37fcbf859f6f9.js",
-      "static/chunks/fd9d1056-b4129a380d1be68f.js",
-      "static/chunks/117-991cad879509df83.js",
-      "static/chunks/main-app-10b3a1b499c3281b.js",
-      "static/chunks/app/admin/tenders/page-4327ab6ee80cfb2a.js"
-    ],
     "/admin/users/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
       "static/chunks/fd9d1056-b4129a380d1be68f.js",
@@ -155,6 +148,13 @@
       "static/chunks/117-991cad879509df83.js",
       "static/chunks/main-app-10b3a1b499c3281b.js",
       "static/chunks/app/admin/verification/page-529d3203c034a8a2.js"
+    ],
+    "/admin/tenders/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-b4129a380d1be68f.js",
+      "static/chunks/117-991cad879509df83.js",
+      "static/chunks/main-app-10b3a1b499c3281b.js",
+      "static/chunks/app/admin/tenders/page-4327ab6ee80cfb2a.js"
     ],
     "/dashboard/clinic/bids/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
@@ -177,7 +177,7 @@
       "static/chunks/117-991cad879509df83.js",
       "static/chunks/main-app-10b3a1b499c3281b.js",
       "static/chunks/648-a41745ebae293ba3.js",
-      "static/chunks/app/dashboard/clinic/create/page-794c28d21ebe33f4.js"
+      "static/chunks/app/dashboard/clinic/create/page-72671fa8d8793c84.js"
     ],
     "/dashboard/clinic/messages/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
@@ -186,6 +186,14 @@
       "static/chunks/main-app-10b3a1b499c3281b.js",
       "static/chunks/app/dashboard/clinic/messages/page-f47681f9e86d6c7c.js"
     ],
+    "/dashboard/clinic/tenders/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-b4129a380d1be68f.js",
+      "static/chunks/117-991cad879509df83.js",
+      "static/chunks/main-app-10b3a1b499c3281b.js",
+      "static/chunks/648-a41745ebae293ba3.js",
+      "static/chunks/app/dashboard/clinic/tenders/page-55655ee806cf6534.js"
+    ],
     "/dashboard/clinic/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
       "static/chunks/fd9d1056-b4129a380d1be68f.js",
@@ -193,14 +201,6 @@
       "static/chunks/main-app-10b3a1b499c3281b.js",
       "static/chunks/648-a41745ebae293ba3.js",
       "static/chunks/app/dashboard/clinic/page-4e720c934c33eab9.js"
-    ],
-    "/dashboard/clinic/tenders/page": [
-      "static/chunks/webpack-a3c37fcbf859f6f9.js",
-      "static/chunks/fd9d1056-b4129a380d1be68f.js",
-      "static/chunks/117-991cad879509df83.js",
-      "static/chunks/main-app-10b3a1b499c3281b.js",
-      "static/chunks/648-a41745ebae293ba3.js",
-      "static/chunks/app/dashboard/clinic/tenders/page-be98984ad19aa574.js"
     ],
     "/dashboard/supplier/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
@@ -224,7 +224,7 @@
       "static/chunks/117-991cad879509df83.js",
       "static/chunks/main-app-10b3a1b499c3281b.js",
       "static/chunks/648-a41745ebae293ba3.js",
-      "static/chunks/app/dashboard/supplier/tenders/page-a96cacbdbd24fd57.js"
+      "static/chunks/app/dashboard/supplier/tenders/page-d7e43174c52ad15c.js"
     ]
   }
 }

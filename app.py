@@ -50,7 +50,13 @@ SEED_DATA = {
         {"id": 1, "name": "Pharmaceuticals", "description": "Medicines, vaccines, and chemical agents", "tendersCount": 12, "status": "Active"},
         {"id": 2, "name": "Medical Equipment", "description": "MRI, ICU monitors, and diagnostic machinery", "tendersCount": 8, "status": "Active"},
         {"id": 3, "name": "Consumables", "description": "Gloves, masks, syringes, and daily disposables", "tendersCount": 15, "status": "Active"},
-        {"id": 4, "name": "Lab Supplies", "description": "Reagents, test tubes, microscopes, and pipettes", "tendersCount": 4, "status": "Active"}
+        {"id": 4, "name": "Lab Supplies", "description": "Reagents, test tubes, microscopes, and pipettes", "tendersCount": 4, "status": "Active"},
+        {"id": 5, "name": "Laboratory", "description": "General laboratory accessories, equipment, and calibration services", "tendersCount": 6, "status": "Active"},
+        {"id": 6, "name": "IT/Healthcare Tech", "description": "EHR systems, telemedicine platforms, and medical software licenses", "tendersCount": 3, "status": "Active"},
+        {"id": 7, "name": "PPE", "description": "Personal protective equipment, gowns, shields, and respirators", "tendersCount": 9, "status": "Active"},
+        {"id": 8, "name": "Diagnostics", "description": "Diagnostic kits, reagents, rapid tests, and imaging accessories", "tendersCount": 5, "status": "Active"},
+        {"id": 9, "name": "Surgical Instruments", "description": "Scalpels, clamps, retractors, and sterile surgery kits", "tendersCount": 2, "status": "Active"},
+        {"id": 10, "name": "Imaging & Radiology", "description": "X-ray plates, MRI components, ultrasound probes, and accessories", "tendersCount": 1, "status": "Active"}
     ],
     "verifications": [
         {"id": 1, "name": "SurgePath Distributors", "type": "Supplier", "submitted": "2 hours ago", "docs": 3, "risk": "Low", "status": "Pending"},
@@ -88,6 +94,20 @@ def load_data():
             if key not in data:
                 data[key] = SEED_DATA[key]
                 updated = True
+        
+        # Ensure default categories are populated
+        existing_cat_names = {c['name'] for c in data.get('categories', [])}
+        for seed_c in SEED_DATA['categories']:
+            if seed_c['name'] not in existing_cat_names:
+                if 'categories' not in data:
+                    data['categories'] = []
+                max_id = max((c['id'] for c in data['categories']), default=0) + 1
+                new_c = seed_c.copy()
+                new_c['id'] = max_id
+                data['categories'].append(new_c)
+                existing_cat_names.add(new_c['name'])
+                updated = True
+
         if updated:
             save_data(data)
         return data
