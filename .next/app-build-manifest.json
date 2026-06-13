@@ -12,7 +12,7 @@
       "static/chunks/fd9d1056-b4129a380d1be68f.js",
       "static/chunks/117-991cad879509df83.js",
       "static/chunks/main-app-10b3a1b499c3281b.js",
-      "static/css/0fab1af0f21da21f.css",
+      "static/css/cc58d63ea51b4429.css",
       "static/chunks/app/layout-be33dc30ceb2538d.js"
     ],
     "/auth/register/page": [
@@ -40,7 +40,7 @@
       "static/chunks/main-app-10b3a1b499c3281b.js",
       "static/chunks/648-a41745ebae293ba3.js",
       "static/chunks/247-d0056c7824a8e9ef.js",
-      "static/chunks/app/how-it-works/page-630b835b605eaffc.js"
+      "static/chunks/app/how-it-works/page-6e208c5b431b1122.js"
     ],
     "/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
@@ -48,16 +48,7 @@
       "static/chunks/117-991cad879509df83.js",
       "static/chunks/main-app-10b3a1b499c3281b.js",
       "static/chunks/648-a41745ebae293ba3.js",
-      "static/chunks/app/page-1f868e2ea9b6d877.js"
-    ],
-    "/pricing/page": [
-      "static/chunks/webpack-a3c37fcbf859f6f9.js",
-      "static/chunks/fd9d1056-b4129a380d1be68f.js",
-      "static/chunks/117-991cad879509df83.js",
-      "static/chunks/main-app-10b3a1b499c3281b.js",
-      "static/chunks/648-a41745ebae293ba3.js",
-      "static/chunks/247-d0056c7824a8e9ef.js",
-      "static/chunks/app/pricing/page-4f45b59f4d8606e3.js"
+      "static/chunks/app/page-3fe6372cf38412f2.js"
     ],
     "/marketplace/[id]/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
@@ -66,6 +57,15 @@
       "static/chunks/main-app-10b3a1b499c3281b.js",
       "static/chunks/648-a41745ebae293ba3.js",
       "static/chunks/app/marketplace/[id]/page-3bec5eaa03c246ee.js"
+    ],
+    "/pricing/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-b4129a380d1be68f.js",
+      "static/chunks/117-991cad879509df83.js",
+      "static/chunks/main-app-10b3a1b499c3281b.js",
+      "static/chunks/648-a41745ebae293ba3.js",
+      "static/chunks/247-d0056c7824a8e9ef.js",
+      "static/chunks/app/pricing/page-b2f8bcd755ae0023.js"
     ],
     "/suppliers/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
@@ -83,13 +83,12 @@
       "static/chunks/648-a41745ebae293ba3.js",
       "static/chunks/app/marketplace/page-47d37dce8cd9369a.js"
     ],
-    "/admin/page": [
+    "/admin/reports/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
       "static/chunks/fd9d1056-b4129a380d1be68f.js",
       "static/chunks/117-991cad879509df83.js",
       "static/chunks/main-app-10b3a1b499c3281b.js",
-      "static/chunks/648-a41745ebae293ba3.js",
-      "static/chunks/app/admin/page-53b21ddec8209b62.js"
+      "static/chunks/app/admin/reports/page-47e7a70b77e18bb7.js"
     ],
     "/admin/layout": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
@@ -99,33 +98,12 @@
       "static/chunks/648-a41745ebae293ba3.js",
       "static/chunks/app/admin/layout-4f2bd4166214a527.js"
     ],
-    "/admin/clinics/page": [
-      "static/chunks/webpack-a3c37fcbf859f6f9.js",
-      "static/chunks/fd9d1056-b4129a380d1be68f.js",
-      "static/chunks/117-991cad879509df83.js",
-      "static/chunks/main-app-10b3a1b499c3281b.js",
-      "static/chunks/app/admin/clinics/page-7e07140c29d88cab.js"
-    ],
     "/admin/categories/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
       "static/chunks/fd9d1056-b4129a380d1be68f.js",
       "static/chunks/117-991cad879509df83.js",
       "static/chunks/main-app-10b3a1b499c3281b.js",
       "static/chunks/app/admin/categories/page-468897c4241d12b9.js"
-    ],
-    "/admin/reports/page": [
-      "static/chunks/webpack-a3c37fcbf859f6f9.js",
-      "static/chunks/fd9d1056-b4129a380d1be68f.js",
-      "static/chunks/117-991cad879509df83.js",
-      "static/chunks/main-app-10b3a1b499c3281b.js",
-      "static/chunks/app/admin/reports/page-47e7a70b77e18bb7.js"
-    ],
-    "/admin/settings/page": [
-      "static/chunks/webpack-a3c37fcbf859f6f9.js",
-      "static/chunks/fd9d1056-b4129a380d1be68f.js",
-      "static/chunks/117-991cad879509df83.js",
-      "static/chunks/main-app-10b3a1b499c3281b.js",
-      "static/chunks/app/admin/settings/page-af5420da09e8d7be.js"
     ],
     "/admin/suppliers/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
@@ -141,6 +119,13 @@
       "static/chunks/main-app-10b3a1b499c3281b.js",
       "static/chunks/app/admin/tenders/page-4327ab6ee80cfb2a.js"
     ],
+    "/admin/verification/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-b4129a380d1be68f.js",
+      "static/chunks/117-991cad879509df83.js",
+      "static/chunks/main-app-10b3a1b499c3281b.js",
+      "static/chunks/app/admin/verification/page-529d3203c034a8a2.js"
+    ],
     "/admin/users/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
       "static/chunks/fd9d1056-b4129a380d1be68f.js",
@@ -148,12 +133,27 @@
       "static/chunks/main-app-10b3a1b499c3281b.js",
       "static/chunks/app/admin/users/page-34abd73cfc596e86.js"
     ],
-    "/admin/verification/page": [
+    "/admin/clinics/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
       "static/chunks/fd9d1056-b4129a380d1be68f.js",
       "static/chunks/117-991cad879509df83.js",
       "static/chunks/main-app-10b3a1b499c3281b.js",
-      "static/chunks/app/admin/verification/page-529d3203c034a8a2.js"
+      "static/chunks/app/admin/clinics/page-7e07140c29d88cab.js"
+    ],
+    "/admin/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-b4129a380d1be68f.js",
+      "static/chunks/117-991cad879509df83.js",
+      "static/chunks/main-app-10b3a1b499c3281b.js",
+      "static/chunks/648-a41745ebae293ba3.js",
+      "static/chunks/app/admin/page-53b21ddec8209b62.js"
+    ],
+    "/admin/settings/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-b4129a380d1be68f.js",
+      "static/chunks/117-991cad879509df83.js",
+      "static/chunks/main-app-10b3a1b499c3281b.js",
+      "static/chunks/app/admin/settings/page-af5420da09e8d7be.js"
     ],
     "/dashboard/clinic/create/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
@@ -178,14 +178,6 @@
       "static/chunks/main-app-10b3a1b499c3281b.js",
       "static/chunks/app/dashboard/clinic/messages/page-f47681f9e86d6c7c.js"
     ],
-    "/dashboard/clinic/tenders/page": [
-      "static/chunks/webpack-a3c37fcbf859f6f9.js",
-      "static/chunks/fd9d1056-b4129a380d1be68f.js",
-      "static/chunks/117-991cad879509df83.js",
-      "static/chunks/main-app-10b3a1b499c3281b.js",
-      "static/chunks/648-a41745ebae293ba3.js",
-      "static/chunks/app/dashboard/clinic/tenders/page-55655ee806cf6534.js"
-    ],
     "/dashboard/clinic/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
       "static/chunks/fd9d1056-b4129a380d1be68f.js",
@@ -193,6 +185,14 @@
       "static/chunks/main-app-10b3a1b499c3281b.js",
       "static/chunks/648-a41745ebae293ba3.js",
       "static/chunks/app/dashboard/clinic/page-4e720c934c33eab9.js"
+    ],
+    "/dashboard/clinic/tenders/page": [
+      "static/chunks/webpack-a3c37fcbf859f6f9.js",
+      "static/chunks/fd9d1056-b4129a380d1be68f.js",
+      "static/chunks/117-991cad879509df83.js",
+      "static/chunks/main-app-10b3a1b499c3281b.js",
+      "static/chunks/648-a41745ebae293ba3.js",
+      "static/chunks/app/dashboard/clinic/tenders/page-55655ee806cf6534.js"
     ],
     "/dashboard/clinic/bids/page": [
       "static/chunks/webpack-a3c37fcbf859f6f9.js",
