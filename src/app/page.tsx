@@ -130,7 +130,7 @@ function ParticleCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-none z-0"
+      className="fixed inset-0 pointer-events-none z-0"
     />
   )
 }
@@ -299,7 +299,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Trust Banner / Logostrip ─────────────────────────────────────────── */}
-      <section className="bg-white border-y border-slate-200/80 py-10 overflow-hidden relative z-10">
+      <section className="bg-white/40 backdrop-blur-sm border-y border-slate-200/60 py-10 overflow-hidden relative z-10">
         <div className="max-w-7xl mx-auto px-6">
           <p className="text-center text-xs font-semibold uppercase tracking-wider text-slate-400 mb-8">Trusted by leading healthcare institutions</p>
           <div className="flex flex-wrap justify-center items-center gap-10 md:gap-20 opacity-60 hover:opacity-100 transition-opacity duration-300">
@@ -357,7 +357,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Feature Cards ────────────────────────────────────────────────────── */}
-      <section className="relative z-10 bg-white border-y border-slate-200 py-24">
+      <section className="relative z-10 bg-white/40 backdrop-blur-sm border-y border-slate-200/60 py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 max-w-2xl mx-auto space-y-3">
             <span className="text-xs font-bold tracking-widest text-[#4285F4] uppercase">Accredited Network</span>
@@ -422,7 +422,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="bg-white border border-slate-200 rounded-3xl p-8 lg:p-12 shadow-sm text-left">
+        <div className="bg-white/75 backdrop-blur-md border border-slate-200 rounded-3xl p-8 lg:p-12 shadow-sm text-left">
           {activeTab === 'clinic' ? (
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
@@ -526,7 +526,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Testimonials ────────────────────────────────────────────────────── */}
-      <section className="relative z-10 py-24 bg-white border-t border-slate-200">
+      <section className="relative z-10 py-24 bg-white/40 backdrop-blur-sm border-t border-slate-200/60">
         <div className="max-w-4xl mx-auto px-6 text-center space-y-8">
           <div className="flex justify-center">
             <div className="w-14 h-14 rounded-2xl bg-[#4285F4]/10 border border-[#4285F4]/20 flex items-center justify-center text-[#4285F4]">
@@ -571,7 +571,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Massive Stylized Brand Footer (Antigravity Style) ────────────────── */}
-      <footer className="relative z-10 bg-white border-t border-slate-200 pt-20 pb-12">
+      <footer className="relative z-10 bg-white/60 backdrop-blur-md border-t border-slate-200/60 pt-20 pb-12">
         <div className="max-w-7xl mx-auto px-6 space-y-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div>
