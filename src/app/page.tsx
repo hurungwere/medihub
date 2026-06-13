@@ -29,6 +29,16 @@ function ParticleCanvas() {
     }
     window.addEventListener('resize', handleResize)
 
+    // Mouse position tracking
+    let mouse = { x: width * 0.15, y: height * 0.75 }
+    let vortex = { x: width * 0.15, y: height * 0.75 }
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.x = e.clientX
+      mouse.y = e.clientY
+    }
+    window.addEventListener('mousemove', handleMouseMove)
+
     // Particle definition
     class Particle {
       x: number = 0
@@ -39,22 +49,21 @@ function ParticleCanvas() {
       speed: number = 0
       radius: number = 0
       opacity: number = 0
+      maxRadius: number = 0
 
       constructor() {
-        this.reset()
+        this.reset(true)
       }
 
-      reset() {
-        // Spiral origin centered in bottom-left
-        const cx = width * 0.15
-        const cy = height * 0.75
+      reset(init = false) {
         this.angle = Math.random() * Math.PI * 2
-        this.radius = Math.random() * Math.max(width, height) * 0.7 + 50
-        this.speed = (Math.random() * 0.0025 + 0.0008) * (Math.random() > 0.5 ? 1 : -1)
-        this.x = cx + Math.cos(this.angle) * this.radius
-        this.y = cy + Math.sin(this.angle) * this.radius
-        this.size = Math.random() * 2 + 1.2
-        this.opacity = Math.random() * 0.35 + 0.2
+        this.maxRadius = Math.random() * Math.max(width, height) * 0.45 + 100
+        this.radius = init ? Math.random() * this.maxRadius : Math.random() * 25
+        this.speed = (Math.random() * 0.0035 + 0.001) * (Math.random() > 0.5 ? 1 : -1)
+        this.x = vortex.x + Math.cos(this.angle) * this.radius
+        this.y = vortex.y + Math.sin(this.angle) * this.radius
+        this.size = Math.random() * 2.5 + 1.2
+        this.opacity = Math.random() * 0.45 + 0.25
 
         // Antigravity Google Colors (Blue, Red, Yellow, Green, Purple, Orange)
         const colors = [
@@ -71,14 +80,12 @@ function ParticleCanvas() {
 
       update() {
         this.angle += this.speed
-        this.radius -= 0.08
-        if (this.radius < 10) {
-          this.reset()
+        this.radius += 0.48 // slowly expand outward from cursor
+        if (this.radius > this.maxRadius) {
+          this.reset(false)
         }
-        const cx = width * 0.15
-        const cy = height * 0.75
-        this.x = cx + Math.cos(this.angle) * this.radius
-        this.y = cy + Math.sin(this.angle) * this.radius
+        this.x = vortex.x + Math.cos(this.angle) * this.radius
+        this.y = vortex.y + Math.sin(this.angle) * this.radius
       }
 
       draw() {
@@ -90,7 +97,7 @@ function ParticleCanvas() {
       }
     }
 
-    const particleCount = 160
+    const particleCount = 180
     const particles: Particle[] = []
     for (let i = 0; i < particleCount; i++) {
       particles.push(new Particle())
@@ -98,6 +105,11 @@ function ParticleCanvas() {
 
     const animate = () => {
       ctx.clearRect(0, 0, width, height)
+
+      // Interpolate vortex center to mouse position smoothly
+      vortex.x += (mouse.x - vortex.x) * 0.075
+      vortex.y += (mouse.y - vortex.y) * 0.075
+
       particles.forEach((p) => {
         p.update()
         p.draw()
@@ -109,6 +121,7 @@ function ParticleCanvas() {
 
     return () => {
       window.removeEventListener('resize', handleResize)
+      window.removeEventListener('mousemove', handleMouseMove)
       cancelAnimationFrame(animationFrameId)
     }
   }, [])
