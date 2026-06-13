@@ -1,0 +1,23 @@
+<svg width="520" height="90" viewBox="0 0 520 90" xmlns="http://www.w3.org/2000/svg">
+  <title>MediHub Logo — Reversed (White on Blue)</title>
+  <rect x="0" y="0" width="520" height="90" rx="10" fill="#0066CC"/>
+  <circle cx="50" cy="45" r="17" fill="white" opacity="0.18"/>
+  <circle cx="50" cy="45" r="12" fill="white" opacity="0.9"/>
+  <line x1="50" y1="28" x2="50" y2="12" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+  <line x1="62" y1="35" x2="73" y2="23" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+  <line x1="64" y1="52" x2="76" y2="61" stroke="#00B8A9" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="50" y1="62" x2="50" y2="78" stroke="#00A86B" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="36" y1="52" x2="24" y2="61" stroke="#00B8A9" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="38" y1="35" x2="27" y2="23" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+  <circle cx="50" cy="7" r="5.5" fill="white" opacity="0.75"/>
+  <circle cx="78" cy="17" r="4.5" fill="#00B8A9"/>
+  <circle cx="81" cy="67" r="5.5" fill="#00A86B"/>
+  <circle cx="50" cy="84" r="4.5" fill="#00B8A9"/>
+  <circle cx="19" cy="67" r="5.5" fill="white" opacity="0.55"/>
+  <circle cx="22" cy="17" r="4.5" fill="white" opacity="0.45"/>
+  <rect x="47" y="39.5" width="6" height="11" rx="1.5" fill="#0066CC"/>
+  <rect x="45" y="42.5" width="10" height="5" rx="1.5" fill="#0066CC"/>
+  <text x="105" y="36" font-family="-apple-system,'Inter','Segoe UI',sans-serif" font-size="28" font-weight="300" letter-spacing="-0.3" fill="white" opacity="0.85">Medi</text>
+  <text x="171" y="36" font-family="-apple-system,'Inter','Segoe UI',sans-serif" font-size="28" font-weight="600" letter-spacing="-0.3" fill="white">Hub</text>
+  <text x="105" y="54" font-family="-apple-system,'Inter','Segoe UI',sans-serif" font-size="8" font-weight="400" fill="white" opacity="0.5" letter-spacing="0.16em">HEALTHCARE PROCUREMENT NETWORK</text>
+</svg>

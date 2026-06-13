@@ -1,0 +1,2 @@
+curl -s https://medihub-82xy.onrender.com/ > /dev/null 2>&1
+v

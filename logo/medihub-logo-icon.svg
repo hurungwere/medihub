@@ -1,0 +1,20 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <title>MediHub Icon Mark</title>
+  <rect x="0" y="0" width="200" height="200" rx="44" fill="#0066CC"/>
+  <circle cx="100" cy="100" r="30" fill="white" opacity="0.15"/>
+  <circle cx="100" cy="100" r="22" fill="white" opacity="0.9"/>
+  <line x1="100" y1="74" x2="100" y2="44" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+  <line x1="119" y1="83" x2="144" y2="56" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+  <line x1="122" y1="112" x2="150" y2="130" stroke="#00B8A9" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="100" y1="126" x2="100" y2="158" stroke="#00A86B" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="78" y1="112" x2="50" y2="130" stroke="#00B8A9" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="81" y1="83" x2="56" y2="56" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+  <circle cx="100" cy="36" r="10" fill="white" opacity="0.85"/>
+  <circle cx="152" cy="48" r="8" fill="#00B8A9"/>
+  <circle cx="158" cy="138" r="10" fill="#00A86B"/>
+  <circle cx="100" cy="168" r="8" fill="#00B8A9"/>
+  <circle cx="42" cy="138" r="10" fill="#00B8A9"/>
+  <circle cx="48" cy="48" r="8" fill="white" opacity="0.55"/>
+  <rect x="95" y="93" width="10" height="14" rx="2" fill="#0066CC"/>
+  <rect x="93" y="97" width="14" height="6" rx="2" fill="#0066CC"/>
+</svg>
