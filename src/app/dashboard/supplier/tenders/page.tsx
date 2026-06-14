@@ -54,7 +54,7 @@ export default function TenderDiscovery() {
   return (
     <div className="p-4 lg:p-6 max-w-6xl mx-auto space-y-5">
       <div>
-        <h1 className="text-xl font-bold text-white">Tender Discovery</h1>
+        <h1 className="text-xl font-bold text-white">Bid Discovery</h1>
         <p className="text-sm text-slate-400 mt-1">Find procurement opportunities matched to your capabilities.</p>
       </div>
 
@@ -65,7 +65,7 @@ export default function TenderDiscovery() {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500">
               <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
             </svg>
-            <input type="text" placeholder="Search tenders, facilities, products…" value={search} onChange={e=>setSearch(e.target.value)}
+            <input type="text" placeholder="Search bids, facilities, products…" value={search} onChange={e=>setSearch(e.target.value)}
               className="input-field pl-10"/>
           </div>
           <select className="input-field lg:w-48" value={cat} onChange={e=>setCat(e.target.value)}>
@@ -100,7 +100,7 @@ export default function TenderDiscovery() {
 
       {/* Results */}
       <div className="flex items-center justify-between">
-        <p className="text-xs text-slate-500">{filtered.length} tenders found</p>
+        <p className="text-xs text-slate-500">{filtered.length} bids found</p>
         <p className="text-xs text-slate-600">Sorted by: <span className="text-slate-400 capitalize">{sortBy}</span></p>
       </div>
 
@@ -151,7 +151,7 @@ export default function TenderDiscovery() {
       {filtered.length === 0 && (
         <div className="text-center py-16">
           <div className="text-5xl mb-4">🔍</div>
-          <h3 className="text-sm font-semibold text-slate-300 mb-2">No tenders found</h3>
+          <h3 className="text-sm font-semibold text-slate-300 mb-2">No bids found</h3>
           <p className="text-xs text-slate-500">Try adjusting your filters or search terms.</p>
         </div>
       )}

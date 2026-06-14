@@ -10,7 +10,7 @@ const adminSections = [
   { icon:'👥', label:'Users', href:'/admin/users', id:'users' },
   { icon:'🏭', label:'Suppliers', href:'/admin/suppliers', id:'suppliers' },
   { icon:'🏥', label:'Clinics', href:'/admin/clinics', id:'clinics' },
-  { icon:'📋', label:'Tenders', href:'/admin/tenders', id:'tenders' },
+  { icon:'📋', label:'Bids', href:'/admin/tenders', id:'tenders' },
   { icon:'🏷️', label:'Categories', href:'/admin/categories', id:'categories' },
   { icon:'🛡️', label:'Verification', href:'/admin/verification', id:'verification' },
   { icon:'📈', label:'Reports', href:'/admin/reports', id:'reports' },
@@ -66,11 +66,11 @@ export default function AdminTendersPage() {
         {/* Top Bar */}
         <header className="h-16 bg-slate-900/80 backdrop-blur-xl border-b border-slate-800/60 flex items-center justify-between px-6">
           <div className="flex items-center gap-3">
-            <h1 className="text-sm font-semibold text-white">Tender Management</h1>
+            <h1 className="text-sm font-semibold text-white">Bid Management</h1>
           </div>
           <button onClick={() => setIsModalOpen(true)} className="px-4 py-2 bg-primary-600 hover:bg-primary-500 text-white text-sm font-medium rounded-lg transition-colors shadow-sm flex items-center gap-2">
             <Plus className="w-4 h-4" />
-            Post Tender
+            Post Bid
           </button>
         </header>
 
@@ -81,7 +81,7 @@ export default function AdminTendersPage() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 w-4 h-4" />
               <input 
                 type="text" 
-                placeholder="Search tenders by ID or title..." 
+                placeholder="Search bids by ID or title..." 
                 className="w-full bg-slate-900 border border-slate-800 rounded-lg py-2 pl-9 pr-4 text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
               />
             </div>
@@ -96,7 +96,7 @@ export default function AdminTendersPage() {
               <table className="w-full text-left text-sm whitespace-nowrap">
                 <thead className="bg-slate-950/50 border-b border-slate-800/60 text-slate-400 font-medium">
                   <tr>
-                    <th className="px-6 py-4">Tender ID</th>
+                    <th className="px-6 py-4">Bid ID</th>
                     <th className="px-6 py-4">Title & Facility</th>
                     <th className="px-6 py-4">Category</th>
                     <th className="px-6 py-4">Status</th>
@@ -143,7 +143,7 @@ export default function AdminTendersPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
           <div className="bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between">
-              <h2 className="text-lg font-bold text-white">Post New Tender</h2>
+              <h2 className="text-lg font-bold text-white">Post New Bid</h2>
               <button onClick={() => setIsModalOpen(false)} className="p-1 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors">
                 <X className="w-5 h-5" />
               </button>
@@ -152,7 +152,7 @@ export default function AdminTendersPage() {
             <form onSubmit={handlePostTender} className="p-6 overflow-y-auto space-y-5">
               <div className="grid sm:grid-cols-2 gap-5">
                 <div className="space-y-1.5 sm:col-span-2">
-                  <label className="text-sm font-medium text-slate-300">Tender Title</label>
+                  <label className="text-sm font-medium text-slate-300">Bid Title</label>
                   <input required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} type="text" placeholder="e.g. MRI Contrast Agents" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500" />
                 </div>
                 
@@ -206,7 +206,7 @@ export default function AdminTendersPage() {
                   Cancel
                 </button>
                 <button type="submit" className="px-5 py-2.5 bg-primary-600 hover:bg-primary-500 text-white text-sm font-medium rounded-lg transition-colors shadow-sm">
-                  Post Tender
+                  Post Bid
                 </button>
               </div>
             </form>

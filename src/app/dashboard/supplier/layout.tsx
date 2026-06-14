@@ -5,7 +5,7 @@ import { logoutUser } from '@/app/actions/auth'
 
 const sidebarItems = [
   { icon: '📊', label: 'Overview', href: '/dashboard/supplier', id: 'overview' },
-  { icon: '🔍', label: 'Find Tenders', href: '/dashboard/supplier/tenders', id: 'tenders' },
+  { icon: '🔍', label: 'Find Bids', href: '/dashboard/supplier/tenders', id: 'tenders' },
   { icon: '📤', label: 'My Bids', href: '/dashboard/supplier/bids', id: 'bids' },
   { icon: '📈', label: 'Analytics', href: '/dashboard/supplier/analytics', id: 'analytics' },
   { icon: '💬', label: 'Messages', href: '/dashboard/supplier/messages', id: 'messages' },
@@ -106,7 +106,7 @@ export default function SupplierLayout({ children }: { children: React.ReactNode
             <Link href="/dashboard/supplier/tenders"
               className="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
-              Browse Tenders
+              Browse Bids
             </Link>
             <button className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white transition-colors relative">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" /></svg>

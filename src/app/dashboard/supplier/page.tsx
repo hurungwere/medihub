@@ -6,7 +6,7 @@ import Link from 'next/link'
 const stats = [
   { label:'New Opportunities', value:'23', change:'+5 today', color:'text-primary-400', bg:'bg-primary-500/10', icon:'🎯' },
   { label:'Bids Submitted', value:'47', change:'This month', color:'text-emerald-400', bg:'bg-emerald-500/10', icon:'📤' },
-  { label:'Won Tenders', value:'12', change:'Win rate: 25%', color:'text-amber-400', bg:'bg-amber-500/10', icon:'🏆' },
+  { label:'Won Bids', value:'12', change:'Win rate: 25%', color:'text-amber-400', bg:'bg-amber-500/10', icon:'🏆' },
   { label:'Revenue Pipeline', value:'$1.2M', change:'Estimated', color:'text-cyan-400', bg:'bg-cyan-500/10', icon:'💰' },
 ]
 
@@ -18,9 +18,9 @@ const opportunities = [
 ]
 
 const myBids = [
-  { id:'BID-021', tender:'ICU Patient Monitor', submitted:'2 days ago', status:'Under Review', amount:'$92,500' },
-  { id:'BID-020', tender:'N95 Masks x20K', submitted:'4 days ago', status:'Won', amount:'$18,400' },
-  { id:'BID-019', tender:'Saline Solution 500ml', submitted:'1 week ago', status:'Lost', amount:'$6,800' },
+  { id:'BID-021', bidTitle:'ICU Patient Monitor', submitted:'2 days ago', status:'Under Review', amount:'$92,500' },
+  { id:'BID-020', bidTitle:'N95 Masks x20K', submitted:'4 days ago', status:'Won', amount:'$18,400' },
+  { id:'BID-019', bidTitle:'Saline Solution 500ml', submitted:'1 week ago', status:'Lost', amount:'$6,800' },
 ]
 
 const bidStatusColor: Record<string,string> = {
@@ -46,7 +46,7 @@ export default function SupplierDashboard() {
         </div>
         <Link href="/dashboard/supplier/tenders"
           className="hidden sm:flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-emerald-500/25 hover:-translate-y-0.5">
-          🔍 Explore All Tenders
+          🔍 Explore All Bids
         </Link>
       </div>
 
@@ -168,7 +168,7 @@ export default function SupplierDashboard() {
               <div key={b.id} className="flex items-center gap-4 px-5 py-4 hover:bg-slate-800/30 transition-colors">
                 <div className="text-xl">📋</div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-white">{b.tender}</p>
+                  <p className="text-sm font-semibold text-white">{b.bidTitle}</p>
                   <p className="text-xs text-slate-500">{b.id} · Submitted {b.submitted}</p>
                 </div>
                 <span className={`px-2.5 py-1 rounded-full text-xs font-medium border ${bidStatusColor[b.status]}`}>{b.status}</span>

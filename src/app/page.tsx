@@ -8,6 +8,8 @@ import {
   Stethoscope, Clock, FileText, CheckCircle2, Sparkles, Download
 } from 'lucide-react'
 import { getCategories } from '@/app/actions/admin'
+import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 
 // ── Interactive Particle Canvas Background ────────────────────────────────────
 function ParticleCanvas() {
@@ -30,7 +32,7 @@ function ParticleCanvas() {
     }
     window.addEventListener('resize', handleResize)
 
-    // Mouse position tracking
+    // Mouse & Touch position tracking
     let mouse = { x: width * 0.15, y: height * 0.75 }
     let vortex = { x: width * 0.15, y: height * 0.75 }
 
@@ -38,71 +40,51 @@ function ParticleCanvas() {
       mouse.x = e.clientX
       mouse.y = e.clientY
     }
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        mouse.x = e.touches[0].clientX
+        mouse.y = e.touches[0].clientY
+      }
+    }
+
     window.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('touchmove', handleTouchMove)
 
-    // Particle definition
-    class Particle {
-      x: number = 0
-      y: number = 0
-      color: string = ''
-      size: number = 0
-      angle: number = 0
-      speed: number = 0
-      radius: number = 0
-      opacity: number = 0
-      maxRadius: number = 0
-
-      constructor() {
-        this.reset(true)
-      }
-
-      reset(init = false) {
-        this.angle = Math.random() * Math.PI * 2
-        this.maxRadius = Math.random() * Math.max(width, height) * 0.45 + 100
-        this.radius = init ? Math.random() * this.maxRadius : Math.random() * 25
-        this.speed = (Math.random() * 0.0035 + 0.001) * (Math.random() > 0.5 ? 1 : -1)
-        this.x = vortex.x + Math.cos(this.angle) * this.radius
-        this.y = vortex.y + Math.sin(this.angle) * this.radius
-        this.size = Math.random() * 2.5 + 1.2
-        this.opacity = Math.random() * 0.45 + 0.25
-
-        // Antigravity Google Colors (Blue, Red, Yellow, Green, Purple, Orange)
-        const colors = [
-          'rgba(66, 133, 244, opacity)',  // Blue
-          'rgba(234, 67, 53, opacity)',   // Red
-          'rgba(251, 188, 5, opacity)',   // Yellow
-          'rgba(52, 168, 83, opacity)',   // Green
-          'rgba(168, 85, 247, opacity)',  // Purple
-          'rgba(249, 115, 22, opacity)',  // Orange
-        ]
-        const colorPattern = colors[Math.floor(Math.random() * colors.length)]
-        this.color = colorPattern.replace('opacity', this.opacity.toString())
-      }
-
-      update() {
-        this.angle += this.speed
-        this.radius += 0.48 // slowly expand outward from cursor
-        if (this.radius > this.maxRadius) {
-          this.reset(false)
-        }
-        this.x = vortex.x + Math.cos(this.angle) * this.radius
-        this.y = vortex.y + Math.sin(this.angle) * this.radius
-      }
-
-      draw() {
-        if (!ctx) return
-        ctx.beginPath()
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
-        ctx.fillStyle = this.color
-        ctx.fill()
-      }
-    }
-
+    // Particle definition using robust POJO
     const particleCount = 180
-    const particles: Particle[] = []
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle())
-    }
+    const particles = Array.from({ length: particleCount }, () => {
+      const angle = Math.random() * Math.PI * 2
+      const maxRadius = Math.random() * Math.max(width, height) * 0.45 + 100
+      const radius = Math.random() * maxRadius
+      const speed = (Math.random() * 0.0035 + 0.001) * (Math.random() > 0.5 ? 1 : -1)
+      const size = Math.random() * 2.5 + 1.2
+      const opacity = Math.random() * 0.45 + 0.25
+      
+      const colors = [
+        'rgba(66, 133, 244, opacity)',  // Blue
+        'rgba(234, 67, 53, opacity)',   // Red
+        'rgba(251, 188, 5, opacity)',   // Yellow
+        'rgba(52, 168, 83, opacity)',   // Green
+        'rgba(168, 85, 247, opacity)',  // Purple
+        'rgba(249, 115, 22, opacity)',  // Orange
+      ]
+      const colorPattern = colors[Math.floor(Math.random() * colors.length)]
+      const color = colorPattern.replace('opacity', opacity.toString())
+
+      return {
+        angle,
+        maxRadius,
+        radius,
+        speed,
+        size,
+        opacity,
+        color,
+        x: vortex.x + Math.cos(angle) * radius,
+        y: vortex.y + Math.sin(angle) * radius
+      }
+    })
 
     const animate = () => {
       ctx.clearRect(0, 0, width, height)
@@ -112,9 +94,37 @@ function ParticleCanvas() {
       vortex.y += (mouse.y - vortex.y) * 0.075
 
       particles.forEach((p) => {
-        p.update()
-        p.draw()
+        p.angle += p.speed
+        p.radius += 0.48 // slowly expand outward from cursor
+        if (p.radius > p.maxRadius) {
+          p.angle = Math.random() * Math.PI * 2
+          p.maxRadius = Math.random() * Math.max(width, height) * 0.45 + 100
+          p.radius = Math.random() * 25
+          p.speed = (Math.random() * 0.0035 + 0.001) * (Math.random() > 0.5 ? 1 : -1)
+          p.size = Math.random() * 2.5 + 1.2
+          p.opacity = Math.random() * 0.45 + 0.25
+          
+          const colors = [
+            'rgba(66, 133, 244, opacity)',  // Blue
+            'rgba(234, 67, 53, opacity)',   // Red
+            'rgba(251, 188, 5, opacity)',   // Yellow
+            'rgba(52, 168, 83, opacity)',   // Green
+            'rgba(168, 85, 247, opacity)',  // Purple
+            'rgba(249, 115, 22, opacity)',  // Orange
+          ]
+          const colorPattern = colors[Math.floor(Math.random() * colors.length)]
+          p.color = colorPattern.replace('opacity', p.opacity.toString())
+        }
+
+        p.x = vortex.x + Math.cos(p.angle) * p.radius
+        p.y = vortex.y + Math.sin(p.angle) * p.radius
+
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
+        ctx.fillStyle = p.color
+        ctx.fill()
       })
+
       animationFrameId = requestAnimationFrame(animate)
     }
 
@@ -123,6 +133,8 @@ function ParticleCanvas() {
     return () => {
       window.removeEventListener('resize', handleResize)
       window.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('touchmove', handleTouchMove)
       cancelAnimationFrame(animationFrameId)
     }
   }, [])
@@ -130,7 +142,7 @@ function ParticleCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
+      className="fixed inset-0 pointer-events-none z-[1]"
     />
   )
 }
@@ -138,6 +150,46 @@ function ParticleCanvas() {
 export default function HomePage() {
   const [categories, setCategories] = useState<any[]>([])
   const [activeTab, setActiveTab] = useState<'clinic' | 'supplier'>('clinic')
+  const [typedGreeting, setTypedGreeting] = useState('')
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+    let username = ''
+    try {
+      const userStr = localStorage.getItem('user')
+      if (userStr) {
+        const u = JSON.parse(userStr)
+        username = u.name || u.email || ''
+      }
+    } catch (e) {}
+    
+    const fullText = username 
+      ? `Welcome back, ${username}! Ready to secure your sourcing?` 
+      : 'Hello! Welcome to MediHub Sourcing.'
+
+    let current = ''
+    let index = 0
+    let timeoutId: any
+
+    const tick = () => {
+      if (index < fullText.length) {
+        current += fullText[index]
+        setTypedGreeting(current)
+        index++
+        timeoutId = setTimeout(tick, 50)
+      }
+    }
+    
+    setTypedGreeting('')
+    timeoutId = setTimeout(tick, 100)
+    
+    return () => clearTimeout(timeoutId)
+  }, [mounted])
 
   useEffect(() => {
     async function load() {
@@ -165,40 +217,8 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#f8f9fa] text-[#1f1f1f] font-sans selection:bg-[#4285F4]/20 overflow-x-hidden relative">
       
-      {/* ── Custom Antigravity Style Header ────────────────────────────────────── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#f8f9fa]/95 backdrop-blur-md border-b border-slate-200/60 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <Link href="/" className="flex items-center gap-2 group">
-              <span className="text-xl font-bold tracking-tight">
-                <span className="text-[#4285F4]">M</span>
-                <span className="text-[#EA4335]">e</span>
-                <span className="text-[#FBBC05]">d</span>
-                <span className="text-[#4285F4]">i</span>
-                <span className="text-[#34A853]">H</span>
-                <span className="text-[#EA4335]">u</span>
-                <span className="text-[#4285F4]">b</span>
-              </span>
-              <span className="text-slate-500 font-semibold text-sm">Procurement</span>
-            </Link>
-            
-            <div className="hidden md:flex items-center gap-6">
-              <Link href="/marketplace" className="text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">Marketplace</Link>
-              <Link href="/suppliers" className="text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">Suppliers</Link>
-              <Link href="/how-it-works" className="text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">How It Works</Link>
-              <Link href="/pricing" className="text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">Pricing</Link>
-              <Link href="/about" className="text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">About Us</Link>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <Link href="/auth/login" className="text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">Sign In</Link>
-            <Link href="/auth/register" className="inline-flex items-center gap-2 px-5 py-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold rounded-full transition-colors shadow-sm">
-              Get Started <Download className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-        </div>
-      </nav>
+      {/* ── Global Header ────────────────────────────────────── */}
+      <Navbar />
 
       {/* Particle Canvas background */}
       <ParticleCanvas />
@@ -208,17 +228,11 @@ export default function HomePage() {
         
         {/* Antigravity Logo Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm cursor-default">
-          <span className="text-sm font-bold tracking-tight">
-            <span className="text-[#4285F4]">M</span>
-            <span className="text-[#EA4335]">e</span>
-            <span className="text-[#FBBC05]">d</span>
-            <span className="text-[#4285F4]">i</span>
-            <span className="text-[#34A853]">H</span>
-            <span className="text-[#EA4335]">u</span>
-            <span className="text-[#4285F4]">b</span>
-          </span>
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-xs font-semibold text-slate-500">Procurement</span>
+          <span className="text-xs font-semibold text-slate-500 min-h-[16px] inline-block">
+            {typedGreeting}
+            <span className="animate-pulse ml-0.5 font-bold">|</span>
+          </span>
         </div>
 
         {/* Title */}
@@ -228,7 +242,7 @@ export default function HomePage() {
 
         {/* Description */}
         <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-normal">
-          Connect your medical facility with a verified network of qualified suppliers. Streamline bidding processes, ensure HIPAA-compliant sourcing, and lower supply chain overhead.
+          Connect your medical facility with a verified network of qualified suppliers. Streamline bidding processes, ensure secure sourcing, and lower supply chain overhead.
         </p>
 
         {/* Search Bar / Input */}
@@ -272,17 +286,21 @@ export default function HomePage() {
 
           <div className="p-6 space-y-3 bg-slate-900">
             {[
-              { id: 'TND-087', title: 'MRI Contrast Agents (Gadolinium)', dept: 'Radiology', bids: 12, status: 'Active', color: 'border-emerald-500/20 text-emerald-400 bg-emerald-500/5' },
-              { id: 'TND-088', title: 'Surgical Gloves (Latex-Free)', dept: 'Surgery', bids: 45, status: 'Reviewing', color: 'border-amber-500/20 text-amber-400 bg-amber-500/5' },
-              { id: 'TND-089', title: 'Defibrillator Replacement Parts', dept: 'Cardiology', bids: 8, status: 'Awarded', color: 'border-cyan-500/20 text-cyan-400 bg-cyan-500/5' }
+              { id: 'TND-087', title: 'MRI Contrast Agents (Gadolinium)', dept: 'Radiology', bids: 12, status: 'Active', color: 'border-emerald-500/20 text-emerald-400 bg-emerald-500/5', query: 'MRI' },
+              { id: 'TND-088', title: 'Surgical Gloves (Latex-Free)', dept: 'Surgery', bids: 45, status: 'Reviewing', color: 'border-amber-500/20 text-amber-400 bg-amber-500/5', query: 'Gloves' },
+              { id: 'TND-089', title: 'Defibrillator Replacement Parts', dept: 'Cardiology', bids: 8, status: 'Awarded', color: 'border-cyan-500/20 text-cyan-400 bg-cyan-500/5', query: 'Defibrillator' }
             ].map((item, idx) => (
-              <div key={idx} className="flex items-center justify-between p-4 rounded-xl border border-slate-800 bg-slate-950/40 hover:border-slate-700 hover:bg-slate-900/30 transition-all font-sans text-slate-300">
+              <Link 
+                key={idx} 
+                href={`/marketplace?q=${encodeURIComponent(item.query)}`} 
+                className="flex items-center justify-between p-4 rounded-xl border border-slate-800 bg-slate-950/40 hover:border-[#4285F4]/40 hover:bg-slate-900/30 transition-all font-sans text-slate-300 cursor-pointer group"
+              >
                 <div className="flex items-center gap-3.5">
-                  <div className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-[#4285F4]">
+                  <div className="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-[#4285F4] group-hover:text-white transition-colors">
                     <FileText className="w-4 h-4" />
                   </div>
                   <div className="text-left">
-                    <h4 className="text-sm font-semibold text-slate-200">{item.title}</h4>
+                    <h4 className="text-sm font-semibold text-slate-200 group-hover:text-[#4285F4] transition-colors">{item.title}</h4>
                     <p className="text-[11px] text-slate-500">{item.dept}</p>
                   </div>
                 </div>
@@ -292,7 +310,7 @@ export default function HomePage() {
                   </span>
                   <span className="text-xs text-slate-400 font-semibold">{item.bids} Bids</span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -337,7 +355,7 @@ export default function HomePage() {
                     {idx + 1}
                   </span>
                   <span className="text-[10px] font-bold text-slate-500 bg-[#f8f9fa] px-2.5 py-1 rounded-lg border border-slate-200">
-                    {cat.tendersCount || 0} active tenders
+                    {cat.tendersCount || 0} active bids
                   </span>
                 </div>
                 <div className="text-left">
@@ -428,7 +446,7 @@ export default function HomePage() {
               <div className="space-y-6">
                 <h3 className="text-2xl lg:text-3xl font-extrabold text-slate-900 leading-tight">Simplify Healthcare Sourcing from Request to Audit</h3>
                 <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
-                  Draft customizable tenders with specific certification criteria, medical product parameters, and deadline boundaries. Review dozens of bids in a structured format, communicate securely with vendors, and track delivery compliance logs.
+                  Draft customizable bid requests with specific certification criteria, medical product parameters, and deadline boundaries. Review dozens of bids in a structured format, communicate securely with vendors, and track delivery compliance logs.
                 </p>
                 <ul className="space-y-3 text-sm text-slate-600">
                   {[
@@ -450,25 +468,12 @@ export default function HomePage() {
                 </div>
               </div>
               
-              <div className="bg-slate-50 rounded-2xl border border-slate-200 p-6 space-y-4 font-sans">
-                <div className="flex justify-between items-center pb-4 border-b border-slate-200">
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Tender Worksheet</span>
-                  <span className="px-2.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/25 text-[10px] font-bold text-emerald-600">Validated</span>
-                </div>
-                <div className="space-y-3 text-sm">
-                  <div className="bg-white p-3 rounded-lg border border-slate-200">
-                    <p className="text-[10px] text-slate-400 font-bold uppercase">Product Category</p>
-                    <p className="text-sm font-semibold text-slate-800">Diagnostics / Rapid COVID Kits</p>
-                  </div>
-                  <div className="bg-white p-3 rounded-lg border border-slate-200">
-                    <p className="text-[10px] text-slate-400 font-bold uppercase">Quantity Required</p>
-                    <p className="text-sm font-semibold text-slate-800">10,000 Boxes (Sterile)</p>
-                  </div>
-                  <div className="bg-white p-3 rounded-lg border border-slate-200">
-                    <p className="text-[10px] text-slate-400 font-bold uppercase">Accreditation Requirements</p>
-                    <p className="text-xs text-slate-500 font-medium leading-relaxed">WHO pre-qualified, FDA/MHR approved certification uploaded.</p>
-                  </div>
-                </div>
+              <div className="relative rounded-2xl overflow-hidden border border-slate-200 shadow-lg group hover:shadow-xl transition-all duration-300 bg-slate-950">
+                <img 
+                  src="/hospital_dashboard.png" 
+                  alt="Hospital Sourcing Dashboard" 
+                  className="w-full h-auto object-cover transform hover:scale-[1.02] transition-transform duration-500"
+                />
               </div>
             </div>
           ) : (
@@ -498,27 +503,12 @@ export default function HomePage() {
                 </div>
               </div>
               
-              <div className="bg-slate-50 rounded-2xl border border-slate-200 p-6 space-y-4 font-sans">
-                <div className="flex justify-between items-center pb-4 border-b border-slate-200">
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Supplier Console</span>
-                  <span className="px-2.5 py-0.5 rounded bg-[#4285F4]/10 border border-[#4285F4]/25 text-[10px] font-bold text-[#4285F4]">Verified</span>
-                </div>
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between items-center bg-white p-3.5 rounded-lg border border-slate-200">
-                    <div>
-                      <p className="text-xs font-bold text-slate-800">Active Match Notifications</p>
-                      <p className="text-[10px] text-slate-400 mt-0.5">Northgate Hospital — Syringes</p>
-                    </div>
-                    <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 text-[10px] font-bold">98% Match</span>
-                  </div>
-                  <div className="flex justify-between items-center bg-white p-3.5 rounded-lg border border-slate-200">
-                    <div>
-                      <p className="text-xs font-bold text-slate-800">Verification Status</p>
-                      <p className="text-[10px] text-slate-400 mt-0.5">Compliant — Level 1 Badge</p>
-                    </div>
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                  </div>
-                </div>
+              <div className="relative rounded-2xl overflow-hidden border border-slate-200 shadow-lg group hover:shadow-xl transition-all duration-300 bg-slate-950">
+                <img 
+                  src="/supplier_dashboard.png" 
+                  alt="Supplier Console Dashboard" 
+                  className="w-full h-auto object-cover transform hover:scale-[1.02] transition-transform duration-500"
+                />
               </div>
             </div>
           )}
@@ -570,54 +560,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Massive Stylized Brand Footer (Antigravity Style) ────────────────── */}
-      <footer className="relative z-10 bg-white/60 backdrop-blur-md border-t border-slate-200/60 pt-20 pb-12">
-        <div className="max-w-7xl mx-auto px-6 space-y-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">About</h4>
-              <ul className="space-y-2.5 text-sm">
-                <li><Link href="/about" className="text-slate-600 hover:text-slate-900 transition-colors font-medium">About Us</Link></li>
-                <li><Link href="/how-it-works" className="text-slate-600 hover:text-slate-900 transition-colors font-medium">Careers</Link></li>
-                <li><Link href="/how-it-works" className="text-slate-600 hover:text-slate-900 transition-colors font-medium">Press</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Products</h4>
-              <ul className="space-y-2.5 text-sm">
-                <li><Link href="/marketplace" className="text-slate-600 hover:text-slate-900 transition-colors font-medium">Marketplace</Link></li>
-                <li><Link href="/pricing" className="text-slate-600 hover:text-slate-900 transition-colors font-medium">Pricing Plans</Link></li>
-                <li><Link href="/how-it-works" className="text-slate-600 hover:text-slate-900 transition-colors font-medium">API Documentation</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Legal</h4>
-              <ul className="space-y-2.5 text-sm">
-                <li><Link href="/how-it-works" className="text-slate-600 hover:text-slate-900 transition-colors font-medium">Privacy Policy</Link></li>
-                <li><Link href="/how-it-works" className="text-slate-600 hover:text-slate-900 transition-colors font-medium">Terms of Service</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Support</h4>
-              <ul className="space-y-2.5 text-sm">
-                <li><Link href="/how-it-works" className="text-slate-600 hover:text-slate-900 transition-colors font-medium">Help Center</Link></li>
-                <li><Link href="/how-it-works" className="text-slate-600 hover:text-slate-900 transition-colors font-medium">Contact Sales</Link></li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Giga Brand Heading */}
-          <div className="pt-10 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6">
-            <h2 className="text-[52px] sm:text-[92px] font-black tracking-tighter text-slate-200 select-none leading-none">
-              MediHub
-            </h2>
-            <div className="text-xs font-semibold text-slate-500 text-center md:text-right">
-              <p>© {new Date().getFullYear()} MediHub. Powered by Google Antigravity.</p>
-              <p className="mt-1 text-slate-400">All rights reserved.</p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* ── Standard Footer ────────────────────────────────────── */}
+      <Footer />
 
     </div>
   )

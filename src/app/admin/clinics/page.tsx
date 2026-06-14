@@ -183,7 +183,7 @@ export default function AdminClinicsPage() {
                   <th className="px-6 py-4">ID</th>
                   <th className="px-6 py-4">Facility Name</th>
                   <th className="px-6 py-4">Location</th>
-                  <th className="px-6 py-4">Active Tenders</th>
+                  <th className="px-6 py-4">Active Bids</th>
                   <th className="px-6 py-4">Joined Date</th>
                   <th className="px-6 py-4">Status</th>
                   <th className="px-6 py-4 text-right">Actions</th>
@@ -275,7 +275,7 @@ export default function AdminClinicsPage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Tenders Posted</label>
+                <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Bids Posted</label>
                 <input value={form.tendersCount} onChange={e => setForm({...form, tendersCount: Number(e.target.value)})} type="number" placeholder="0" className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-primary-500" />
               </div>
 

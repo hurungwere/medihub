@@ -13,7 +13,7 @@ const adminSections = [
   { icon:'👥', label:'Users', href:'/admin/users', id:'users' },
   { icon:'🏭', label:'Suppliers', href:'/admin/suppliers', id:'suppliers' },
   { icon:'🏥', label:'Clinics', href:'/admin/clinics', id:'clinics' },
-  { icon:'📋', label:'Tenders', href:'/admin/tenders', id:'tenders' },
+  { icon:'📋', label:'Bids', href:'/admin/tenders', id:'tenders' },
   { icon:'🏷️', label:'Categories', href:'/admin/categories', id:'categories' },
   { icon:'🛡️', label:'Verification', href:'/admin/verification', id:'verification' },
   { icon:'📈', label:'Reports', href:'/admin/reports', id:'reports' },
@@ -22,11 +22,11 @@ const adminSections = [
 
 const platformStats = [
   { label:'Total Users', value:'2,847', change:'+124 this month', trend:'up', icon:'👥' },
-  { label:'Active Tenders', value:'342', change:'+28 today', trend:'up', icon:'📋' },
+  { label:'Active Bids', value:'342', change:'+28 today', trend:'up', icon:'📋' },
   { label:'Verified Suppliers', value:'1,840', change:'18 pending review', trend:'neutral', icon:'🏭' },
   { label:'Platform Revenue', value:'$128K', change:'+22% MoM', trend:'up', icon:'💰' },
   { label:'Bids Submitted', value:'8,491', change:'This month', trend:'up', icon:'📤' },
-  { label:'Awards Given', value:'1,203', change:'Closed tenders', trend:'neutral', icon:'🏆' },
+  { label:'Awards Given', value:'1,203', change:'Closed bids', trend:'neutral', icon:'🏆' },
 ]
 
 export default function AdminDashboard() {
@@ -34,7 +34,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState<any[]>([
     { label:'Total Users', value:'...', change:'Loading...', trend:'neutral', icon:'👥' },
-    { label:'Active Tenders', value:'...', change:'Loading...', trend:'neutral', icon:'📋' },
+    { label:'Active Bids', value:'...', change:'Loading...', trend:'neutral', icon:'📋' },
     { label:'Verified Suppliers', value:'...', change:'Loading...', trend:'neutral', icon:'🏭' },
     { label:'Platform Revenue', value:'...', change:'Loading...', trend:'neutral', icon:'💰' },
     { label:'Bids Submitted', value:'...', change:'Loading...', trend:'neutral', icon:'📤' },
@@ -55,7 +55,7 @@ export default function AdminDashboard() {
           const s = reports.stats
           setStats([
             { label:'Total Users', value: s.totalUsers?.toString() || '0', change:`+${pending.length} pending`, trend:'neutral', icon:'👥' },
-            { label:'Active Tenders', value: s.activeTenders?.toString() || '0', change:`Total: ${s.totalTenders || 0}`, trend:'up', icon:'📋' },
+            { label:'Active Bids', value: s.activeTenders?.toString() || '0', change:`Total: ${s.totalTenders || 0}`, trend:'up', icon:'📋' },
             { label:'Verified Suppliers', value: s.totalSuppliers?.toString() || '0', change:'Active partners', trend:'neutral', icon:'🏭' },
             { label:'Platform Revenue', value: s.revenueEstimate || '$0', change:'+0% MoM', trend:'up', icon:'💰' },
             { label:'Bids Submitted', value: s.bidsSubmitted?.toLocaleString() || '0', change:'Platform total', trend:'up', icon:'📤' },

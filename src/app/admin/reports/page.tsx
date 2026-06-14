@@ -52,7 +52,7 @@ export default function AdminReportsPage() {
   const cards = [
     { label: 'Total Revenue Estimate', value: stats.revenueEstimate, icon: DollarSign, color: 'from-emerald-500/20 to-teal-500/10', text: 'text-emerald-400' },
     { label: 'Registered Users', value: stats.totalUsers, icon: Users, color: 'from-blue-500/20 to-indigo-500/10', text: 'text-blue-400' },
-    { label: 'Tenders Posted', value: stats.totalTenders, icon: FileText, color: 'from-purple-500/20 to-pink-500/10', text: 'text-purple-400' },
+    { label: 'Bids Posted', value: stats.totalTenders, icon: FileText, color: 'from-purple-500/20 to-pink-500/10', text: 'text-purple-400' },
     { label: 'Bids Submitted', value: stats.bidsSubmitted, icon: TrendingUp, color: 'from-amber-500/20 to-orange-500/10', text: 'text-amber-400' },
   ]
 

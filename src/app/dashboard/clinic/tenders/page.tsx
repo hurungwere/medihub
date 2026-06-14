@@ -117,7 +117,7 @@ export default function TendersPage() {
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-white">My Tenders</h1>
+          <h1 className="text-xl font-bold text-white">My Bids</h1>
           <p className="text-sm text-slate-400 mt-1">Manage and track all your procurement requests.</p>
         </div>
         <Link
@@ -125,14 +125,14 @@ export default function TendersPage() {
           className="inline-flex items-center gap-2 px-4 py-2.5 bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-primary-500/25 hover:-translate-y-0.5 flex-shrink-0"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 5v14M5 12h14" /></svg>
-          New Tender
+          New Bid
         </Link>
       </div>
 
       {/* Summary Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: 'Total Tenders', value: summaryStats.total, sub: 'All time', color: 'text-primary-400', bg: 'bg-primary-500/10' },
+          { label: 'Total Bids', value: summaryStats.total, sub: 'All time', color: 'text-primary-400', bg: 'bg-primary-500/10' },
           { label: 'Open', value: summaryStats.open, sub: 'Accepting bids', color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
           { label: 'Evaluating', value: summaryStats.evaluating, sub: 'Under review', color: 'text-amber-400', bg: 'bg-amber-500/10' },
           { label: 'Total Budget', value: `$${(summaryStats.totalBudget / 1000).toFixed(0)}K`, sub: 'Committed value', color: 'text-cyan-400', bg: 'bg-cyan-500/10' },
@@ -209,7 +209,7 @@ export default function TendersPage() {
       <div className="glass-card rounded-2xl overflow-hidden">
         <div className="flex items-center justify-between p-5 border-b border-slate-800/60">
           <div>
-            <h3 className="text-sm font-semibold text-white">All Tenders</h3>
+            <h3 className="text-sm font-semibold text-white">All Bids</h3>
             <p className="text-xs text-slate-500 mt-0.5">{filtered.length} of {allTenders.length} results</p>
           </div>
         </div>
@@ -217,7 +217,7 @@ export default function TendersPage() {
         {filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <div className="w-14 h-14 rounded-2xl bg-slate-800/60 flex items-center justify-center text-2xl mb-4">📋</div>
-            <p className="text-sm font-semibold text-slate-300 mb-1">No tenders found</p>
+            <p className="text-sm font-semibold text-slate-300 mb-1">No bids found</p>
             <p className="text-xs text-slate-500">Try adjusting your filters or search terms.</p>
           </div>
         ) : (
@@ -319,9 +319,9 @@ export default function TendersPage() {
 
         {/* Footer */}
         <div className="px-5 py-3.5 border-t border-slate-800/60 bg-slate-900/30 flex items-center justify-between">
-          <p className="text-xs text-slate-500">Showing {filtered.length} tender{filtered.length !== 1 ? 's' : ''}</p>
+          <p className="text-xs text-slate-500">Showing {filtered.length} bid{filtered.length !== 1 ? 's' : ''}</p>
           <Link href="/dashboard/clinic/create" className="text-xs text-primary-400 hover:text-primary-300 font-medium transition-colors">
-            + Post new tender
+            + Post new bid
           </Link>
         </div>
       </div>

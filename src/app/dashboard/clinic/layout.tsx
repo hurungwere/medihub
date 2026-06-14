@@ -6,8 +6,8 @@ import { logoutUser } from '@/app/actions/auth'
 
 const sidebarItems = [
   { icon: '📊', label: 'Overview', href: '/dashboard/clinic', id: 'overview' },
-  { icon: '📋', label: 'My Tenders', href: '/dashboard/clinic/tenders', id: 'tenders' },
-  { icon: '➕', label: 'Create Tender', href: '/dashboard/clinic/create', id: 'create' },
+  { icon: '📋', label: 'My Bids', href: '/dashboard/clinic/tenders', id: 'tenders' },
+  { icon: '➕', label: 'Create Bid', href: '/dashboard/clinic/create', id: 'create' },
   { icon: '📦', label: 'Bid Comparison', href: '/dashboard/clinic/bids', id: 'bids' },
   { icon: '💬', label: 'Messages', href: '/dashboard/clinic/messages', id: 'messages' },
   { icon: '🔔', label: 'Notifications', href: '/dashboard/clinic/notifications', id: 'notifications' },
@@ -112,7 +112,7 @@ export default function ClinicLayout({ children }: { children: React.ReactNode }
             <Link href="/dashboard/clinic/create"
               className="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-primary-500/25">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 5v14M5 12h14" /></svg>
-              New Tender
+              New Bid
             </Link>
             <button className="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center text-slate-400 hover:text-white transition-colors relative">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" /></svg>

@@ -4,7 +4,7 @@ import { ShieldCheck, ArrowLeft, Clock, FileText, Building2, DollarSign, Lock } 
 import Link from 'next/link'
 import { getTenders } from '@/app/actions/tenders'
 
-export default async function TenderDetailsPage({ params }: { params: { id: string } }) {
+export default async function BidDetailsPage({ params }: { params: { id: string } }) {
   const tenders = await getTenders()
   const tender = tenders.find((t: any) => t.id === params.id) || tenders[0] // fallback if not found
 
@@ -24,12 +24,12 @@ export default async function TenderDetailsPage({ params }: { params: { id: stri
                 <span className="text-sm text-slate-500 flex items-center gap-1"><ShieldCheck className="w-4 h-4 text-primary-500" /> Verified Facility</span>
               </div>
               <div className="text-right">
-                <span className="text-sm text-slate-500 font-medium uppercase">Tender ID</span>
+                <span className="text-sm text-slate-500 font-medium uppercase">Bid ID</span>
                 <p className="font-mono text-slate-900">{params.id}</p>
               </div>
             </div>
 
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">{tender?.title || 'Tender Details'}</h1>
+            <h1 className="text-3xl font-bold text-slate-900 mb-2">{tender?.title || 'Bid Details'}</h1>
             <p className="text-lg text-slate-600 mb-8 flex items-center gap-2">
               <Building2 className="w-5 h-5 text-slate-400" /> {tender?.facility || 'Unknown Facility'}
             </p>

@@ -61,7 +61,7 @@ export default function HowItWorksPage() {
               {[
                 { 
                   icon: <ClipboardEdit className="w-6 h-6" />, 
-                  title: '1. Post a Tender', 
+                  title: '1. Post a Bid Request', 
                   desc: 'Create a detailed request for medical supplies, pharmaceuticals, or equipment. Set your budget, requirements, and deadline.'
                 },
                 { 
@@ -113,7 +113,7 @@ export default function HowItWorksPage() {
                 { 
                   icon: <Search className="w-6 h-6" />, 
                   title: '2. Find Opportunities', 
-                  desc: 'Browse active tenders or let our matching algorithm notify you when requests align with your catalog and specialties.',
+                  desc: 'Browse active bids or let our matching algorithm notify you when requests align with your catalog and specialties.',
                   color: 'text-emerald-600',
                   bg: 'bg-emerald-50'
                 },

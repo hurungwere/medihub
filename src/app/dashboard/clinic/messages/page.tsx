@@ -3,15 +3,15 @@
 import { useState, useRef, useEffect } from 'react'
 
 const conversations = [
-  { id:'C1', name:'MedSupply Co.', last:'We can deliver in 5 business days.', time:'2m', unread:2, online:true, avatar:'MS', tender:'TND-001' },
-  { id:'C2', name:'PharmaDist Ltd.', last:'Please see the attached COA document.', time:'1h', unread:0, online:true, avatar:'PD', tender:'TND-002' },
-  { id:'C3', name:'Global MedSource', last:'Our bulk pricing starts at $7,500.', time:'3h', unread:1, online:false, avatar:'GM', tender:'TND-003' },
-  { id:'C4', name:'BioPharm Supplies', last:'Can you clarify the specification?', time:'1d', unread:0, online:false, avatar:'BP', tender:'TND-001' },
+  { id:'C1', name:'MedSupply Co.', last:'We can deliver in 5 business days.', time:'2m', unread:2, online:true, avatar:'MS', bidRequest:'TND-001' },
+  { id:'C2', name:'PharmaDist Ltd.', last:'Please see the attached COA document.', time:'1h', unread:0, online:true, avatar:'PD', bidRequest:'TND-002' },
+  { id:'C3', name:'Global MedSource', last:'Our bulk pricing starts at $7,500.', time:'3h', unread:1, online:false, avatar:'GM', bidRequest:'TND-003' },
+  { id:'C4', name:'BioPharm Supplies', last:'Can you clarify the specification?', time:'1d', unread:0, online:false, avatar:'BP', bidRequest:'TND-001' },
 ]
 
 const initialMessages: Record<string, { from:string; text:string; time:string; me:boolean }[]> = {
   C1: [
-    { from:'MedSupply Co.', text:'Hello! We reviewed your tender TND-001 for surgical gloves.', time:'10:15', me:false },
+    { from:'MedSupply Co.', text:'Hello! We reviewed your bid request TND-001 for surgical gloves.', time:'10:15', me:false },
     { from:'You', text:'Great, what is your best unit price for 50,000 units?', time:'10:17', me:true },
     { from:'MedSupply Co.', text:'We can offer $0.16/unit for that volume, with CE and ISO 9001 certification.', time:'10:18', me:false },
     { from:'MedSupply Co.', text:'We can deliver in 5 business days.', time:'10:18', me:false },
@@ -78,7 +78,7 @@ export default function MessagesPage() {
                   <span className="text-[10px] text-slate-600 flex-shrink-0">{c.time}</span>
                 </div>
                 <p className="text-xs text-slate-500 truncate">{c.last}</p>
-                <p className="text-[10px] text-primary-400 mt-0.5">Re: {c.tender}</p>
+                <p className="text-[10px] text-primary-400 mt-0.5">Re: {c.bidRequest}</p>
               </div>
               {c.unread > 0 && <span className="w-4 h-4 rounded-full bg-primary-500 text-white text-[10px] flex items-center justify-center font-bold flex-shrink-0 mt-1">{c.unread}</span>}
             </button>
@@ -96,7 +96,7 @@ export default function MessagesPage() {
           </div>
           <div>
             <p className="text-sm font-semibold text-white">{active.name}</p>
-            <p className="text-xs text-slate-500">{active.online ? '🟢 Online' : '⚫ Offline'} · {active.tender}</p>
+            <p className="text-xs text-slate-500">{active.online ? '🟢 Online' : '⚫ Offline'} · {active.bidRequest}</p>
           </div>
           <div className="ml-auto flex items-center gap-2">
             <button className="p-2 rounded-lg bg-slate-800 text-slate-400 hover:text-white transition-colors text-xs">📎 Files</button>

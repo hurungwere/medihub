@@ -8,7 +8,7 @@ const units = ['Units','Boxes','Cartons','Vials','Packs','Litres','Kg']
 
 interface ProductRow { name:string; qty:string; unit:string; spec:string }
 
-export default function CreateTenderPage() {
+export default function CreateBidPage() {
   const [categories, setCategories] = useState<string[]>([
     'Pharmaceuticals', 'Medical Equipment', 'Consumables', 'Laboratory', 'IT/Healthcare Tech', 'PPE', 'Diagnostics'
   ])
@@ -66,10 +66,10 @@ export default function CreateTenderPage() {
     <div className="min-h-full flex items-center justify-center p-8">
       <div className="text-center max-w-sm">
         <div className="w-20 h-20 rounded-full bg-emerald-500/15 border-2 border-emerald-500/40 flex items-center justify-center text-4xl mx-auto mb-6">✅</div>
-        <h2 className="text-xl font-bold text-white mb-2">Tender Published!</h2>
+        <h2 className="text-xl font-bold text-white mb-2">Bid Request Published!</h2>
         <p className="text-sm text-slate-400 mb-6">Your requirement is live. Relevant suppliers have been notified and will submit quotations shortly.</p>
         <div className="flex flex-col gap-3">
-          <Link href="/dashboard/clinic/tenders" className="px-6 py-3 bg-primary-500 text-white font-semibold rounded-xl text-sm hover:bg-primary-600 transition-colors">View My Tenders</Link>
+          <Link href="/dashboard/clinic/tenders" className="px-6 py-3 bg-primary-500 text-white font-semibold rounded-xl text-sm hover:bg-primary-600 transition-colors">View My Bids</Link>
           <button onClick={() => { setSubmitted(false); setStep(1) }} className="px-6 py-3 bg-slate-800 text-slate-300 font-semibold rounded-xl text-sm hover:bg-slate-700 transition-colors">Post Another</button>
         </div>
       </div>
@@ -84,7 +84,7 @@ export default function CreateTenderPage() {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
           Back to Dashboard
         </Link>
-        <h1 className="text-xl font-bold text-white mt-2">Create New Tender</h1>
+        <h1 className="text-xl font-bold text-white mt-2">Create New Bid</h1>
         <p className="text-sm text-slate-400 mt-1">Post your procurement requirement to verified suppliers.</p>
       </div>
 
@@ -112,7 +112,7 @@ export default function CreateTenderPage() {
           <div className="space-y-5 animate-fade-in">
             <h2 className="text-base font-semibold text-white">Basic Information</h2>
             <div>
-              <label className="block text-xs font-semibold text-slate-400 mb-1.5">Tender Title <span className="text-rose-400">*</span></label>
+              <label className="block text-xs font-semibold text-slate-400 mb-1.5">Bid Title <span className="text-rose-400">*</span></label>
               <input className="input-field" placeholder="e.g. Surgical Gloves — Latex Free, 50,000 units" value={form.title} onChange={e=>setForm({...form,title:e.target.value})}/>
             </div>
             <div>
@@ -191,7 +191,7 @@ export default function CreateTenderPage() {
         {step === 3 && (
           <div className="space-y-5 animate-fade-in">
             <h2 className="text-base font-semibold text-white">Equipment Requirements</h2>
-            <p className="text-xs text-slate-500">Skip this step if your tender is for medicines or consumables only.</p>
+            <p className="text-xs text-slate-500">Skip this step if your bid request is for medicines or consumables only.</p>
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-400 mb-1.5">Equipment Name</label>
@@ -267,7 +267,7 @@ export default function CreateTenderPage() {
           ) : (
             <button onClick={handleSubmit} disabled={submitting}
               className="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-60 text-white text-sm font-semibold rounded-xl transition-all duration-200 flex items-center gap-2">
-              {submitting ? <><svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>Publishing…</> : '🚀 Publish Tender'}
+              {submitting ? <><svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>Publishing…</> : '🚀 Publish Bid'}
             </button>
           )}
         </div>

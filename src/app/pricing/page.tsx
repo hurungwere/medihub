@@ -20,7 +20,7 @@ const clinicTiers = [
     name: 'Basic',
     price: 'Free',
     desc: 'Perfect for small clinics getting started with digital procurement.',
-    features: ['Post unlimited tenders', 'Basic supplier matching', 'Standard email support', 'Up to 3 user accounts'],
+    features: ['Post unlimited bid requests', 'Basic supplier matching', 'Standard email support', 'Up to 3 user accounts'],
     cta: 'Get Started',
     popular: false
   },
@@ -41,7 +41,7 @@ const supplierTiers = [
     price: '$149',
     period: '/mo',
     desc: 'Get your products in front of thousands of verified clinics.',
-    features: ['Bid on up to 20 tenders/mo', 'Verified Supplier Badge', 'Basic profile analytics', 'Standard support'],
+    features: ['Bid on up to 20 bid requests/mo', 'Verified Supplier Badge', 'Basic profile analytics', 'Standard support'],
     cta: 'Start Selling',
     popular: false
   },
@@ -49,7 +49,7 @@ const supplierTiers = [
     name: 'Enterprise',
     price: 'Custom',
     desc: 'Unlimited volume and dedicated account management for large distributors.',
-    features: ['Unlimited tender bidding', 'Featured profile placement', 'Dedicated account manager', 'API access for automated bidding'],
+    features: ['Unlimited bidding', 'Featured profile placement', 'Dedicated account manager', 'API access for automated bidding'],
     cta: 'Contact Sales',
     popular: true
   }

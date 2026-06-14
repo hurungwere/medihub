@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 const stats = [
-  { label:'Active Tenders', value:'12', change:'+2 this week', trend:'up', color:'text-primary-400', bg:'bg-primary-500/10' },
+  { label:'Active Bids', value:'12', change:'+2 this week', trend:'up', color:'text-primary-400', bg:'bg-primary-500/10' },
   { label:'Quotes Received', value:'47', change:'+8 today', trend:'up', color:'text-emerald-400', bg:'bg-emerald-500/10' },
   { label:'Approved Orders', value:'8', change:'2 pending approval', trend:'neutral', color:'text-cyan-400', bg:'bg-cyan-500/10' },
   { label:'Total Spent', value:'$284K', change:'↓12% vs last month', trend:'down', color:'text-amber-400', bg:'bg-amber-500/10' },
@@ -71,7 +71,7 @@ function DonutChart({ value, label, color }: { value: number; label: string; col
 }
 
 const quickActions = [
-  { label:'Post New Tender', href:'/dashboard/clinic/create', icon:'📋', color:'bg-primary-500 hover:bg-primary-600' },
+  { label:'Post New Bid', href:'/dashboard/clinic/create', icon:'📋', color:'bg-primary-500 hover:bg-primary-600' },
   { label:'Compare Bids', href:'/dashboard/clinic/bids', icon:'📊', color:'bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/25' },
   { label:'View Messages', href:'/dashboard/clinic/messages', icon:'💬', color:'bg-slate-800 hover:bg-slate-700 border border-slate-700' },
 ]
@@ -126,7 +126,7 @@ export default function ClinicDashboard() {
         </div>
         {/* Completion Rings */}
         <div className="glass-card rounded-2xl p-5">
-          <h3 className="text-sm font-semibold text-white mb-6">Tender Performance</h3>
+          <h3 className="text-sm font-semibold text-white mb-6">Bid Performance</h3>
           <div className="grid grid-cols-3 gap-2">
             <DonutChart value={78} label="Award Rate" color="#0B5FFF"/>
             <DonutChart value={92} label="On-Time" color="#10B981"/>
@@ -149,7 +149,7 @@ export default function ClinicDashboard() {
       <div className="glass-card rounded-2xl overflow-hidden">
         <div className="flex items-center justify-between p-5 border-b border-slate-800/60">
           <div>
-            <h3 className="text-sm font-semibold text-white">Recent Tenders</h3>
+            <h3 className="text-sm font-semibold text-white">Recent Bids</h3>
             <p className="text-xs text-slate-500 mt-0.5">Your active procurement requests</p>
           </div>
           <Link href="/dashboard/clinic/tenders" className="text-xs text-primary-400 hover:text-primary-300 font-medium transition-colors">View all →</Link>

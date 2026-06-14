@@ -166,7 +166,7 @@ export default function AdminSettingsPage() {
               <div className="flex items-center justify-between pt-4">
                 <div>
                   <h4 className="text-sm font-semibold text-slate-200">Require Verification</h4>
-                  <p className="text-xs text-slate-500">New suppliers must go through verification before bidding on tenders.</p>
+                  <p className="text-xs text-slate-500">New suppliers must go through verification before bidding on bid requests.</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input type="checkbox" checked={form.requireVerification} onChange={e => setForm({...form, requireVerification: e.target.checked})} className="sr-only peer" />

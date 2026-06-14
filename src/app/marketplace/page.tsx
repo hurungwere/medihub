@@ -36,7 +36,7 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
         {/* Header */}
         <div className="bg-white border-b border-slate-200 py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-4">Active Tenders & Requests</h1>
+            <h1 className="text-3xl lg:text-5xl font-bold text-slate-900 mb-4">Active Bids & Requests</h1>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
               Browse real-time procurement requests from verified hospitals and clinics. Filter by category, budget, or urgency.
             </p>
@@ -92,14 +92,14 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
                   type="text" 
                   name="q"
                   defaultValue={query}
-                  placeholder="Search tenders by keyword, facility, or ID..." 
+                  placeholder="Search bids by keyword, facility, or ID..." 
                   className="w-full bg-white border border-slate-200 rounded-xl py-3 pl-12 pr-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent shadow-sm"
                 />
               </form>
               
               {tenders.length === 0 && (
                 <div className="bg-white p-8 rounded-xl border border-slate-200 text-center">
-                  <p className="text-slate-500">No tenders found matching "{query}".</p>
+                  <p className="text-slate-500">No bids found matching "{query}".</p>
                 </div>
               )}
 
@@ -134,7 +134,7 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
                       <span className="block text-2xl font-bold text-slate-900">{item.bids}</span>
                       <span className="text-xs text-slate-500 font-medium uppercase">Active Bids</span>
                     </div>
-                    <Link href={`/marketplace/${item.id || 'tender-123'}`} className="w-full sm:w-auto px-6 py-2.5 bg-white border border-primary-600 text-primary-700 hover:bg-primary-50 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
+                    <Link href={`/marketplace/${item.id || 'bid-123'}`} className="w-full sm:w-auto px-6 py-2.5 bg-white border border-primary-600 text-primary-700 hover:bg-primary-50 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2">
                       View Details
                       <ArrowRight className="w-4 h-4" />
                     </Link>
@@ -143,7 +143,7 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
               ))}
 
               <div className="text-center pt-8">
-                <button className="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold rounded-lg transition-colors text-sm">Load More Tenders</button>
+                <button className="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold rounded-lg transition-colors text-sm">Load More Bids</button>
               </div>
             </div>
           </div>
