@@ -536,6 +536,40 @@ def get_reports():
     return jsonify(reports)
 
 # -------------------------------------------------------------------------
+#  File Upload Endpoints
+# -------------------------------------------------------------------------
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+@app.route('/api/upload', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return jsonify({'success': False, 'error': 'No file part'}), 400
+    
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'success': False, 'error': 'No selected file'}), 400
+
+    filename = file.filename
+    from werkzeug.utils import secure_filename
+    filename = secure_filename(filename)
+    
+    # Prepend unique timestamp
+    filename = f"{int(datetime.utcnow().timestamp())}_{filename}"
+    filepath = os.path.join(UPLOAD_FOLDER, filename)
+    file.save(filepath)
+
+    return jsonify({
+        'success': True, 
+        'url': f'/uploads/{filename}'
+    }), 200
+
+@app.route('/uploads/<path:filename>')
+def uploaded_file(filename):
+    from flask import send_from_directory
+    return send_from_directory(UPLOAD_FOLDER, filename)
+
+# -------------------------------------------------------------------------
 #  Main Entrypoint
 # -------------------------------------------------------------------------
 if __name__ == '__main__':
