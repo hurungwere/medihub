@@ -542,13 +542,47 @@ def get_settings():
 def update_settings():
     data_store = load_data()
     req = request.get_json() or {}
-    if 'settings' not in data_store:
-        data_store['settings'] = {}
     for key in ['platformName', 'maintenanceMode', 'allowRegistrations', 'requireVerification', 'commissionRate', 'supportEmail', 'clinicProPrice', 'supplierStandardPrice']:
         if key in req:
             data_store['settings'][key] = req[key]
     save_data(data_store)
     return jsonify({'success': True})
+
+def get_relative_time(dt_str):
+    if not dt_str:
+        return "Recently"
+    try:
+        if dt_str.endswith('Z'):
+            dt_str = dt_str[:-1]
+        dt = datetime.fromisoformat(dt_str)
+        now = datetime.utcnow()
+        diff = now - dt
+        if diff.days > 0:
+            if diff.days == 1:
+                return "1 day ago"
+            return f"{diff.days} days ago"
+        seconds = diff.seconds
+        if seconds < 60:
+            return "Just now"
+        minutes = seconds // 60
+        if minutes < 60:
+            if minutes == 1:
+                return "1 min ago"
+            return f"{minutes} mins ago"
+        hours = minutes // 60
+        if hours == 1:
+            return "1 hour ago"
+        return f"{hours} hours ago"
+    except Exception:
+        return "Recently"
+
+def get_timestamp(obj, key='createdAt'):
+    ts = obj.get(key, '')
+    if not ts:
+        return '2026-01-01T00:00:00'
+    if ts.endswith('Z'):
+        ts = ts[:-1]
+    return ts
 
 # -------------------------------------------------------------------------
 #  Reports Endpoints
@@ -556,14 +590,69 @@ def update_settings():
 @app.route('/api/reports', methods=['GET'])
 def get_reports():
     data_store = load_data()
-    # Let's count some stats
     total_users = len(data_store['users'])
     total_tenders = len(data_store['tenders'])
     total_suppliers = len(data_store['suppliers'])
     total_clinics = len(data_store['clinics'])
     active_tenders = len([t for t in data_store['tenders'] if t.get('status') == 'Active'])
     
-    # Simple monthly distribution mockup
+    activities = []
+    
+    # Tenders
+    for t in data_store.get('tenders', []):
+        activities.append({
+            'action': 'New tender posted',
+            'detail': f"{t.get('id')} — {t.get('title')}",
+            'time': get_relative_time(t.get('createdAt')),
+            'timestamp': get_timestamp(t),
+            'type': 'tender'
+        })
+        
+    # Verifications
+    for v in data_store.get('verifications', []):
+        if v.get('status') == 'Approved':
+            activities.append({
+                'action': f"{v.get('type', 'Supplier')} verified",
+                'detail': f"{v.get('name')} — Verified",
+                'time': v.get('submitted', '2 days ago'),
+                'timestamp': '2026-06-12T10:00:00',
+                'type': 'verify'
+            })
+        else:
+            activities.append({
+                'action': 'Verification requested',
+                'detail': f"{v.get('name')} awaits review",
+                'time': v.get('submitted', 'Just now'),
+                'timestamp': '2026-06-13T10:00:00',
+                'type': 'verify'
+            })
+
+    # Support Inquiries
+    for inq in data_store.get('support_inquiries', []):
+        activities.append({
+            'action': 'Support message received',
+            'detail': f"{inq.get('name')} — {inq.get('subject')}",
+            'time': get_relative_time(inq.get('createdAt')),
+            'timestamp': get_timestamp(inq),
+            'type': 'user'
+        })
+        
+    # Users
+    for u in data_store.get('users', []):
+        if u.get('email') == 'admin@medihub.com':
+            continue
+        activities.append({
+            'action': 'New user registered',
+            'detail': f"{u.get('name')} ({u.get('orgType', 'user')})",
+            'time': get_relative_time(u.get('createdAt')),
+            'timestamp': get_timestamp(u),
+            'type': 'user'
+        })
+        
+    # Sort by timestamp descending
+    activities.sort(key=lambda x: x['timestamp'], reverse=True)
+    recent_activity = activities[:5]
+    
     reports = {
         'stats': {
             'totalUsers': total_users,
@@ -572,14 +661,10 @@ def get_reports():
             'totalClinics': total_clinics,
             'activeTenders': active_tenders,
             'revenueEstimate': '$128,450',
-            'bidsSubmitted': 8491
+            'bidsSubmitted': len(data_store.get('tenders', [])) * 12
         },
         'userGrowth': [120, 145, 132, 178, 156, 201, 189, 224, 243, 218, 267, total_users * 15 + 2000],
-        'recentActivity': [
-            {'action': 'New tender posted', 'detail': 'TND-089 — Defibrillator x4', 'time': '3 min ago', 'type': 'tender'},
-            {'action': 'Supplier verified', 'detail': 'MedGlobal Corp. — Verified', 'time': '12 min ago', 'type': 'verify'},
-            {'action': 'Bid awarded', 'detail': 'TND-076 won by PharmaDist', 'time': '28 min ago', 'type': 'award'}
-        ]
+        'recentActivity': recent_activity
     }
     return jsonify(reports)
 
