@@ -74,7 +74,53 @@ SEED_DATA = {
         "supportEmail": "support@medihub.com",
         "clinicProPrice": "$99",
         "supplierStandardPrice": "$149"
-    }
+    },
+    "case_studies": [
+        {
+            "id": "CS-001",
+            "hospital": "Metro General Hospital",
+            "location": "Chicago, IL",
+            "metric": "22% Cost Savings",
+            "stat": "18 Days to 48 Hours",
+            "statLabel": "Procurement Time Reduction",
+            "title": "Optimizing ICU Monitor Sourcing under Urgent Deadlines",
+            "desc": "Metro General needed to upgrade 45 ICU monitors to comply with new federal standards. Using MediHub, they broadcasted the bid request to vetted equipment manufacturers, receiving 8 qualified bids within 24 hours.",
+            "tags": "ICU Monitors, Equipment Upgrade, Budget Savings"
+        },
+        {
+            "id": "CS-002",
+            "hospital": "Apex Surgical Clinic",
+            "location": "Austin, TX",
+            "metric": "100% Compliance",
+            "stat": "0 Shortage Days",
+            "statLabel": "Inventory Security Rate",
+            "title": "Resolving Sterile Latex-Free Glove Shortages",
+            "desc": "Faced with a sudden regional distributor failure, Apex Surgical used MediHub to source sterile consumables. Within hours, a verified state distributor matched their bid requirements, ensuring zero clinic downtime.",
+            "tags": "Consumables, Emergency Sourcing, Verified Vendor"
+        },
+        {
+            "id": "CS-003",
+            "hospital": "Northside Healthcare Network",
+            "location": "New York, NY",
+            "metric": "Unified Audit Trail",
+            "stat": "4,200+ Line Items",
+            "statLabel": "Tracked & Audited Annually",
+            "title": "Transitioning multi-facility sourcing from spreadsheets to MediHub",
+            "desc": "Northside Network consolidated procurement across 12 outpatient clinics. By moving bids and compliance logs onto MediHub, they established a 100% transparent audit trail, eliminating double-sourcing errors.",
+            "tags": "Enterprise Sourcing, Audit Trail, Process Automation"
+        }
+    ],
+    "support_inquiries": [
+        {
+            "id": "INQ-001",
+            "name": "Dr. Sarah Mitchell",
+            "email": "sarah@citygeneral.com",
+            "subject": "Verification Issue",
+            "message": "Hello, I uploaded my registration certificate but my clinic's verification is still pending. Can you please check?",
+            "status": "Pending",
+            "createdAt": "2026-06-14T09:00:00"
+        }
+    ]
 }
 
 def load_data():
@@ -210,6 +256,8 @@ def add_tender():
         'deadline': req.get('deadline'),
         'quantity': req.get('quantity'),
         'budget': req.get('budget'),
+        'description': req.get('description', ''),
+        'documentUrl': req.get('documentUrl', ''),
         'createdAt': datetime.utcnow().isoformat()
     }
     data_store['tenders'].append(new_tender)
@@ -230,7 +278,7 @@ def update_tender(tender_id):
     req = request.get_json() or {}
     for i, t in enumerate(data_store['tenders']):
         if t['id'] == tender_id:
-            for key in ['title', 'facility', 'category', 'status', 'bids', 'deadline', 'quantity', 'budget']:
+            for key in ['title', 'facility', 'category', 'status', 'bids', 'deadline', 'quantity', 'budget', 'description', 'documentUrl']:
                 if key in req:
                     data_store['tenders'][i][key] = req[key]
             save_data(data_store)
@@ -534,6 +582,88 @@ def get_reports():
         ]
     }
     return jsonify(reports)
+
+# -------------------------------------------------------------------------
+#  Case Studies Endpoints
+# -------------------------------------------------------------------------
+@app.route('/api/case-studies', methods=['GET'])
+def get_case_studies_api():
+    data_store = load_data()
+    return jsonify(data_store.get('case_studies', []))
+
+@app.route('/api/case-studies', methods=['POST'])
+def add_case_study_api():
+    data_store = load_data()
+    req = request.get_json() or {}
+    
+    new_study = {
+        'id': f"CS-00{len(data_store.get('case_studies', [])) + 1}",
+        'hospital': req.get('hospital', ''),
+        'location': req.get('location', ''),
+        'metric': req.get('metric', ''),
+        'stat': req.get('stat', ''),
+        'statLabel': req.get('statLabel', ''),
+        'title': req.get('title', ''),
+        'desc': req.get('desc', ''),
+        'tags': req.get('tags', '')
+    }
+    
+    if 'case_studies' not in data_store:
+        data_store['case_studies'] = []
+    data_store['case_studies'].append(new_study)
+    save_data(data_store)
+    return jsonify({'success': True, 'study': new_study}), 201
+
+@app.route('/api/case-studies/<study_id>', methods=['DELETE'])
+def delete_case_study_api(study_id):
+    data_store = load_data()
+    studies = data_store.get('case_studies', [])
+    updated_studies = [s for s in studies if s.get('id') != study_id]
+    if len(studies) == len(updated_studies):
+        return jsonify({'success': False, 'error': 'Case study not found'}), 404
+    data_store['case_studies'] = updated_studies
+    save_data(data_store)
+    return jsonify({'success': True})
+
+# -------------------------------------------------------------------------
+#  Support Inquiries Endpoints
+# -------------------------------------------------------------------------
+@app.route('/api/support-inquiries', methods=['GET'])
+def get_support_inquiries_api():
+    data_store = load_data()
+    return jsonify(data_store.get('support_inquiries', []))
+
+@app.route('/api/support-inquiries', methods=['POST'])
+def add_support_inquiry_api():
+    data_store = load_data()
+    req = request.get_json() or {}
+    
+    new_inquiry = {
+        'id': f"INQ-{uuid.uuid4().hex[:6].upper()}",
+        'name': req.get('name', ''),
+        'email': req.get('email', ''),
+        'subject': req.get('subject', ''),
+        'message': req.get('message', ''),
+        'status': 'Pending',
+        'createdAt': datetime.utcnow().isoformat()
+    }
+    
+    if 'support_inquiries' not in data_store:
+        data_store['support_inquiries'] = []
+    data_store['support_inquiries'].append(new_inquiry)
+    save_data(data_store)
+    return jsonify({'success': True, 'inquiry': new_inquiry}), 201
+
+@app.route('/api/support-inquiries/<inquiry_id>', methods=['DELETE'])
+def delete_support_inquiry_api(inquiry_id):
+    data_store = load_data()
+    inquiries = data_store.get('support_inquiries', [])
+    updated_inquiries = [i for i in inquiries if i.get('id') != inquiry_id]
+    if len(inquiries) == len(updated_inquiries):
+        return jsonify({'success': False, 'error': 'Inquiry not found'}), 404
+    data_store['support_inquiries'] = updated_inquiries
+    save_data(data_store)
+    return jsonify({'success': True})
 
 # -------------------------------------------------------------------------
 #  File Upload Endpoints

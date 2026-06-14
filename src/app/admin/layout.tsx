@@ -13,6 +13,8 @@ const adminSections = [
   { icon:'📋', label:'Tenders', href:'/admin/tenders', id:'tenders' },
   { icon:'🏷️', label:'Categories', href:'/admin/categories', id:'categories' },
   { icon:'🛡️', label:'Verification', href:'/admin/verification', id:'verification' },
+  { icon:'✉️', label:'Contact Centre', href:'/admin/support', id:'support' },
+  { icon:'📝', label:'Case Studies', href:'/admin/case-studies', id:'case-studies' },
   { icon:'📈', label:'Reports', href:'/admin/reports', id:'reports' },
   { icon:'⚙️', label:'Settings', href:'/admin/settings', id:'settings' },
 ]

@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { HelpCircle, Mail, MessageSquare, ChevronDown, ChevronUp } from 'lucide-react'
+import { addSupportInquiry } from '@/app/actions/support'
 
 const faqs = [
   {
@@ -26,6 +27,31 @@ const faqs = [
 
 export default function SupportPage() {
   const [openIdx, setOpenIdx] = useState<number | null>(0)
+  
+  // Inquiry Form State
+  const [inquiryForm, setInquiryForm] = useState({ name: '', email: '', subject: '', message: '' })
+  const [submitting, setSubmitting] = useState(false)
+  const [successMsg, setSuccessMsg] = useState('')
+
+  const handleInquirySubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSubmitting(true)
+    setSuccessMsg('')
+    try {
+      const res = await addSupportInquiry(inquiryForm)
+      if (res.success) {
+        setSuccessMsg('Your message has been sent successfully! Our team will contact you shortly.')
+        setInquiryForm({ name: '', email: '', subject: '', message: '' })
+      } else {
+        alert(res.error || 'Failed to send message')
+      }
+    } catch (err) {
+      console.error(err)
+      alert('Error sending message')
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-[#4285F4]/20 overflow-x-hidden">
@@ -44,7 +70,7 @@ export default function SupportPage() {
         </section>
 
         {/* Contact cards */}
-        <section className="relative z-10 max-w-4xl mx-auto px-6 grid sm:grid-cols-2 gap-6 pb-16">
+        <section className="relative z-10 max-w-4xl mx-auto px-6 grid sm:grid-cols-2 gap-6 pb-12">
           <div className="bg-white border border-slate-200 rounded-2xl p-6 flex items-start gap-4 shadow-sm hover:shadow-md transition-shadow text-left">
             <div className="w-10 h-10 rounded-lg bg-[#4285F4]/10 border border-[#4285F4]/20 flex items-center justify-center text-[#4285F4] flex-shrink-0">
               <Mail className="w-5 h-5" />
@@ -68,6 +94,49 @@ export default function SupportPage() {
                 <span className="text-xs font-semibold text-slate-600">All systems fully operational</span>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Contact Form Section */}
+        <section className="relative z-10 max-w-3xl mx-auto px-6 pb-12">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-sm space-y-6">
+            <div className="text-left pb-4 border-b border-slate-100 flex items-center gap-2">
+              <MessageSquare className="w-5 h-5 text-slate-400" />
+              <h2 className="text-xl font-bold text-slate-950">Send Us a Message</h2>
+            </div>
+            
+            <form onSubmit={handleInquirySubmit} className="space-y-4 text-left">
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-500 uppercase">Your Name</label>
+                  <input required value={inquiryForm.name} onChange={e => setInquiryForm({...inquiryForm, name: e.target.value})} type="text" placeholder="John Doe" className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-[#4285F4] focus:ring-1 focus:ring-[#4285F4]" />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-500 uppercase">Email Address</label>
+                  <input required value={inquiryForm.email} onChange={e => setInquiryForm({...inquiryForm, email: e.target.value})} type="email" placeholder="john@example.com" className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-[#4285F4] focus:ring-1 focus:ring-[#4285F4]" />
+                </div>
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-500 uppercase">Subject</label>
+                <input required value={inquiryForm.subject} onChange={e => setInquiryForm({...inquiryForm, subject: e.target.value})} type="text" placeholder="e.g., Facility Verification Status" className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-[#4285F4] focus:ring-1 focus:ring-[#4285F4]" />
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-500 uppercase">Message</label>
+                <textarea required value={inquiryForm.message} onChange={e => setInquiryForm({...inquiryForm, message: e.target.value})} rows={4} placeholder="Type your inquiry here..." className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-800 focus:outline-none focus:border-[#4285F4] focus:ring-1 focus:ring-[#4285F4] resize-none" />
+              </div>
+              
+              <button 
+                type="submit" 
+                disabled={submitting}
+                className="w-full sm:w-auto px-6 py-3 bg-[#4285F4] hover:bg-[#4285F4]/90 text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2"
+              >
+                {submitting ? 'Sending...' : 'Send Inquiry'}
+              </button>
+              
+              {successMsg && (
+                <p className="text-sm text-emerald-600 font-semibold mt-2">{successMsg}</p>
+              )}
+            </form>
           </div>
         </section>
 

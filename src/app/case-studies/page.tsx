@@ -1,13 +1,15 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { ShieldCheck, TrendingDown, Clock, ArrowRight, Building2 } from 'lucide-react'
 import Link from 'next/link'
+import { getCaseStudies } from '@/app/actions/case-studies'
 
-const caseStudies = [
+const defaultCaseStudies = [
   {
+    id: 'CS-001',
     hospital: 'Metro General Hospital',
     location: 'Chicago, IL',
     metric: '22% Cost Savings',
@@ -15,9 +17,10 @@ const caseStudies = [
     statLabel: 'Procurement Time Reduction',
     title: 'Optimizing ICU Monitor Sourcing under Urgent Deadlines',
     desc: 'Metro General needed to upgrade 45 ICU monitors to comply with new federal standards. Using MediHub, they broadcasted the bid request to vetted equipment manufacturers, receiving 8 qualified bids within 24 hours.',
-    tags: ['ICU Monitors', 'Equipment Upgrade', 'Budget Savings']
+    tags: 'ICU Monitors, Equipment Upgrade, Budget Savings'
   },
   {
+    id: 'CS-002',
     hospital: 'Apex Surgical Clinic',
     location: 'Austin, TX',
     metric: '100% Compliance',
@@ -25,9 +28,10 @@ const caseStudies = [
     statLabel: 'Inventory Security Rate',
     title: 'Resolving Sterile Latex-Free Glove Shortages',
     desc: 'Faced with a sudden regional distributor failure, Apex Surgical used MediHub to source sterile consumables. Within hours, a verified state distributor matched their bid requirements, ensuring zero clinic downtime.',
-    tags: ['Consumables', 'Emergency Sourcing', 'Verified Vendor']
+    tags: 'Consumables, Emergency Sourcing, Verified Vendor'
   },
   {
+    id: 'CS-003',
     hospital: 'Northside Healthcare Network',
     location: 'New York, NY',
     metric: 'Unified Audit Trail',
@@ -35,11 +39,25 @@ const caseStudies = [
     statLabel: 'Tracked & Audited Annually',
     title: 'Transitioning multi-facility sourcing from spreadsheets to MediHub',
     desc: 'Northside Network consolidated procurement across 12 outpatient clinics. By moving bids and compliance logs onto MediHub, they established a 100% transparent audit trail, eliminating double-sourcing errors.',
-    tags: ['Enterprise Sourcing', 'Audit Trail', 'Process Automation']
+    tags: 'Enterprise Sourcing, Audit Trail, Process Automation'
   }
 ]
 
 export default function CaseStudiesPage() {
+  const [studies, setStudies] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    getCaseStudies().then((data) => {
+      if (data && data.length > 0) {
+        setStudies(data)
+      } else {
+        setStudies(defaultCaseStudies)
+      }
+      setLoading(false)
+    })
+  }, [])
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-[#4285F4]/20 overflow-x-hidden">
       <Navbar />
@@ -58,39 +76,49 @@ export default function CaseStudiesPage() {
 
         {/* Content list */}
         <section className="relative z-10 max-w-5xl mx-auto px-6 space-y-8">
-          {caseStudies.map((study, idx) => (
-            <div key={idx} className="bg-white border border-slate-200 rounded-3xl p-6 lg:p-10 shadow-sm hover:shadow-md transition-shadow grid md:grid-cols-3 gap-8 items-center">
-              <div className="md:col-span-2 space-y-6">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-xs text-slate-500 font-semibold">
-                    <Building2 className="w-4 h-4 text-slate-400" />
-                    <span>{study.hospital}</span>
-                    <span>•</span>
-                    <span>{study.location}</span>
+          {loading ? (
+            <div className="text-center py-20 text-slate-500 animate-pulse">Loading case studies...</div>
+          ) : (
+            studies.map((study, idx) => {
+              const tagsArray = Array.isArray(study.tags)
+                ? study.tags
+                : (study.tags || '').split(',').map((t: string) => t.trim()).filter(Boolean)
+
+              return (
+                <div key={study.id || idx} className="bg-white border border-slate-200 rounded-3xl p-6 lg:p-10 shadow-sm hover:shadow-md transition-shadow grid md:grid-cols-3 gap-8 items-center">
+                  <div className="md:col-span-2 space-y-6">
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 text-xs text-slate-500 font-semibold">
+                        <Building2 className="w-4 h-4 text-slate-400" />
+                        <span>{study.hospital}</span>
+                        <span>•</span>
+                        <span>{study.location}</span>
+                      </div>
+                      <h2 className="text-xl lg:text-2xl font-bold text-slate-950 hover:text-[#4285F4] transition-colors">{study.title}</h2>
+                    </div>
+                    <p className="text-sm lg:text-base text-slate-600 leading-relaxed">{study.desc}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {tagsArray.map((tag: string) => (
+                        <span key={tag} className="text-xs font-medium text-slate-500 bg-slate-100 border border-slate-200/60 px-2.5 py-1 rounded-lg">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <h2 className="text-xl lg:text-2xl font-bold text-slate-950 hover:text-[#4285F4] transition-colors">{study.title}</h2>
+                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col justify-center text-center space-y-4 h-full">
+                    <div className="space-y-1">
+                      <span className="block text-2xl font-extrabold text-[#4285F4]">{study.metric}</span>
+                      <span className="text-xs font-semibold uppercase text-slate-400">Primary Outcome</span>
+                    </div>
+                    <div className="border-t border-slate-200/60 pt-4 space-y-1">
+                      <span className="block text-lg font-bold text-slate-800">{study.stat}</span>
+                      <span className="text-[11px] font-semibold uppercase text-slate-400">{study.statLabel}</span>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-sm lg:text-base text-slate-600 leading-relaxed">{study.desc}</p>
-                <div className="flex flex-wrap gap-2">
-                  {study.tags.map((tag) => (
-                    <span key={tag} className="text-xs font-medium text-slate-500 bg-slate-100 border border-slate-200/60 px-2.5 py-1 rounded-lg">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col justify-center text-center space-y-4 h-full">
-                <div className="space-y-1">
-                  <span className="block text-2xl font-extrabold text-[#4285F4]">{study.metric}</span>
-                  <span className="text-xs font-semibold uppercase text-slate-400">Primary Outcome</span>
-                </div>
-                <div className="border-t border-slate-200/60 pt-4 space-y-1">
-                  <span className="block text-lg font-bold text-slate-800">{study.stat}</span>
-                  <span className="text-[11px] font-semibold uppercase text-slate-400">{study.statLabel}</span>
-                </div>
-              </div>
-            </div>
-          ))}
+              )
+            })
+          )}
         </section>
 
         {/* CTA section */}
