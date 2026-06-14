@@ -120,6 +120,41 @@ SEED_DATA = {
             "status": "Pending",
             "createdAt": "2026-06-14T09:00:00"
         }
+    ],
+    "blog_posts": [
+        {
+            "id": "BLOG-001",
+            "title": "Modernizing Hospital Sourcing: Moving Beyond Spreadsheets",
+            "excerpt": "How automated matching engines and digital bids eliminate human error, secure historical audits, and speed up hospital inventory replenishment cycles.",
+            "author": "Dr. Sarah Jenkins",
+            "role": "Chief Medical Officer",
+            "date": "June 12, 2026",
+            "readTime": "5 min read",
+            "category": "Industry Trends",
+            "createdAt": "2026-06-12T10:00:00"
+        },
+        {
+            "id": "BLOG-002",
+            "title": "Navigating Medical Device Shortages: A Sourcing Checklist",
+            "excerpt": "An actionable compliance-focused guide for clinic administrators when sourcing high-demand ICU consumables, surgical gloves, and emergency parts.",
+            "author": "Michael Vance",
+            "role": "Supply Chain Analyst",
+            "date": "May 28, 2026",
+            "readTime": "7 min read",
+            "category": "Guides & Checklists",
+            "createdAt": "2026-05-28T10:00:00"
+        },
+        {
+            "id": "BLOG-003",
+            "title": "Understanding Verification Standards for Healthcare Suppliers",
+            "excerpt": "An inside look at MediHub’s verification process: how we audit compliance histories, medical certificates, and financial audits for a secure marketplace.",
+            "author": "Elena Rostova",
+            "role": "VP of Compliance",
+            "date": "May 15, 2026",
+            "readTime": "4 min read",
+            "category": "Platform News",
+            "createdAt": "2026-05-15T10:00:00"
+        }
     ]
 }
 
@@ -747,6 +782,48 @@ def delete_support_inquiry_api(inquiry_id):
     if len(inquiries) == len(updated_inquiries):
         return jsonify({'success': False, 'error': 'Inquiry not found'}), 404
     data_store['support_inquiries'] = updated_inquiries
+    save_data(data_store)
+    return jsonify({'success': True})
+
+# -------------------------------------------------------------------------
+#  Blog Endpoints
+# -------------------------------------------------------------------------
+@app.route('/api/blog', methods=['GET'])
+def get_blog_posts_api():
+    data_store = load_data()
+    return jsonify(data_store.get('blog_posts', []))
+
+@app.route('/api/blog', methods=['POST'])
+def add_blog_post_api():
+    data_store = load_data()
+    req = request.get_json() or {}
+    
+    new_post = {
+        'id': f"BLOG-{uuid.uuid4().hex[:6].upper()}",
+        'title': req.get('title', ''),
+        'excerpt': req.get('excerpt', ''),
+        'author': req.get('author', ''),
+        'role': req.get('role', ''),
+        'date': datetime.utcnow().strftime('%B %d, %Y'),
+        'readTime': req.get('readTime', '5 min read'),
+        'category': req.get('category', 'Industry Trends'),
+        'createdAt': datetime.utcnow().isoformat()
+    }
+    
+    if 'blog_posts' not in data_store:
+        data_store['blog_posts'] = []
+    data_store['blog_posts'].append(new_post)
+    save_data(data_store)
+    return jsonify({'success': True, 'post': new_post}), 201
+
+@app.route('/api/blog/<post_id>', methods=['DELETE'])
+def delete_blog_post_api(post_id):
+    data_store = load_data()
+    posts = data_store.get('blog_posts', [])
+    updated_posts = [p for p in posts if p.get('id') != post_id]
+    if len(posts) == len(updated_posts):
+        return jsonify({'success': False, 'error': 'Blog post not found'}), 404
+    data_store['blog_posts'] = updated_posts
     save_data(data_store)
     return jsonify({'success': True})
 

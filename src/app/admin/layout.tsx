@@ -15,6 +15,7 @@ const adminSections = [
   { icon:'🛡️', label:'Verification', href:'/admin/verification', id:'verification' },
   { icon:'✉️', label:'Contact Centre', href:'/admin/support', id:'support' },
   { icon:'📝', label:'Case Studies', href:'/admin/case-studies', id:'case-studies' },
+  { icon:'📰', label:'Procurement Blog', href:'/admin/blog', id:'blog' },
   { icon:'📈', label:'Reports', href:'/admin/reports', id:'reports' },
   { icon:'⚙️', label:'Settings', href:'/admin/settings', id:'settings' },
 ]
