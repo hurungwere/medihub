@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Plus, Search, Filter, MoreVertical, X, Upload } from 'lucide-react'
-import { getTenders, addTender } from '@/app/actions/tenders'
+import { getTenders, addTender, uploadFile } from '@/app/actions/tenders'
 
 const adminSections = [
   { icon:'📊', label:'Overview', href:'/admin', id:'overview' },
@@ -32,8 +32,39 @@ export default function AdminTendersPage() {
     description: ''
   })
 
-  // Data State
   const [tenders, setTenders] = useState<any[]>([])
+  
+  const [uploading, setUploading] = useState(false)
+  const [attachmentUrl, setAttachmentUrl] = useState('')
+  const [attachmentName, setAttachmentName] = useState('')
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploading(true)
+    setAttachmentName(file.name)
+
+    const form = new FormData()
+    form.append('file', file)
+
+    try {
+      const res = await uploadFile(form)
+      if (res.success) {
+        setAttachmentUrl(res.url)
+      } else {
+        alert('Upload failed: ' + (res.error || 'Unknown error'))
+        setAttachmentName('')
+      }
+    } catch (err) {
+      console.error(err)
+      alert('Error uploading file')
+      setAttachmentName('')
+    } finally {
+      setUploading(false)
+    }
+  }
 
   useEffect(() => {
     getTenders().then(setTenders)
@@ -42,7 +73,7 @@ export default function AdminTendersPage() {
   const handlePostTender = async (e: React.FormEvent) => {
     e.preventDefault()
     const newTender = {
-      id: `TND-0${Math.floor(Math.random() * 1000) + 100}`,
+      id: `TND-${Math.floor(100 + Math.random() * 900)}`,
       title: formData.title,
       facility: formData.facility,
       category: formData.category,
@@ -50,7 +81,9 @@ export default function AdminTendersPage() {
       bids: 0,
       deadline: formData.deadline,
       quantity: formData.quantity,
-      budget: formData.budget
+      budget: formData.budget,
+      description: formData.description,
+      documentUrl: attachmentUrl
     }
     
     const res = await addTender(newTender)
@@ -58,6 +91,8 @@ export default function AdminTendersPage() {
       setTenders([newTender, ...tenders])
       setIsModalOpen(false)
       setFormData({ title: '', facility: '', category: 'Pharmaceuticals', quantity: '', budget: '', deadline: '', description: '' })
+      setAttachmentUrl('')
+      setAttachmentName('')
     }
   }
 
@@ -191,12 +226,27 @@ export default function AdminTendersPage() {
                   <textarea required value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} rows={4} placeholder="Include specifications, compliance requirements..." className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 resize-none" />
                 </div>
 
-                {/* File Upload Mock */}
+                {/* File Upload */}
                 <div className="sm:col-span-2">
                   <label className="text-sm font-medium text-slate-300 mb-1.5 block">Attachments</label>
-                  <div className="w-full border-2 border-dashed border-slate-800 hover:border-primary-500/50 transition-colors rounded-lg flex flex-col items-center justify-center py-6 gap-2 cursor-pointer bg-slate-950/50">
+                  <input 
+                    type="file" 
+                    ref={fileInputRef} 
+                    onChange={handleFileChange} 
+                    className="hidden" 
+                  />
+                  <div 
+                    onClick={() => fileInputRef.current?.click()}
+                    className="w-full border-2 border-dashed border-slate-800 hover:border-primary-500/50 transition-colors rounded-lg flex flex-col items-center justify-center py-6 gap-2 cursor-pointer bg-slate-950/50"
+                  >
                     <Upload className="w-6 h-6 text-slate-500" />
-                    <p className="text-sm text-slate-400">Click to upload RFQ documents or specs</p>
+                    {uploading ? (
+                      <p className="text-sm text-[#4285F4] animate-pulse">Uploading file...</p>
+                    ) : attachmentUrl ? (
+                      <p className="text-sm text-emerald-400 font-semibold">✓ {attachmentName}</p>
+                    ) : (
+                      <p className="text-sm text-slate-400">Click to upload RFQ documents or specs</p>
+                    )}
                   </div>
                 </div>
               </div>

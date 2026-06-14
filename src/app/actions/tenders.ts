@@ -81,3 +81,22 @@ export async function deleteTender(id: string) {
     return { success: false, error: 'Could not reach the server' }
   }
 }
+
+export async function uploadFile(formData: FormData) {
+  try {
+    const res = await fetch(`${API_BASE}/api/upload`, {
+      method: 'POST',
+      body: formData,
+    })
+    const text = await res.text()
+    try {
+      return JSON.parse(text)
+    } catch {
+      console.error('Upload response parse failed:', text)
+      return { success: false, error: 'Invalid response from server' }
+    }
+  } catch (error) {
+    console.error('Upload file action error:', error)
+    return { success: false, error: 'Could not upload file to server' }
+  }
+}
